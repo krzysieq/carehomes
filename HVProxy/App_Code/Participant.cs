@@ -10,7 +10,7 @@ namespace HVProxy.Models
 
     public class Participant
     {
-        public int ParticipantId { get; set; }
+        public Guid ParticipantId { get; set; }
 
         [StringLength(100)]
         public string ParticipantName { get; set; }

@@ -18,7 +18,7 @@ namespace HVProxy.Models
         {
             var participants = new List<Participant> {
                         new Participant {
-                            ParticipantId = 1,
+                            ParticipantId = Guid.NewGuid(),
                             ParticipantName = "John Smith",
                             TimeTokenGenerated = DateTime.Parse("2014-10-01"),
                             ParticipantCode = "AAAA-BBBB-CCCC-DDDD-EEEE",
@@ -29,7 +29,7 @@ namespace HVProxy.Models
                             RecordId = Guid.NewGuid()
                         },
                         new Participant {
-                            ParticipantId = 2,
+                            ParticipantId = Guid.NewGuid(),
                             ParticipantName = "Lisa Jackson",
                             TimeTokenGenerated = DateTime.Parse("2014-12-06"),
                             ParticipantCode = "1234-1234-1234-1234-1234",
