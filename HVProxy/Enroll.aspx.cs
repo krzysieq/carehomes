@@ -37,5 +37,19 @@ public partial class Enroll : System.Web.UI.Page
             PersonId = null,
             RecordId = null
         };
+
+        using (var db = new ParticipantContext())
+        {
+            try
+            {
+                db.Participants.Add(participant);
+                db.SaveChanges();
+            }
+            catch (Exception exp)
+            {
+                throw new Exception("ERROR: Unable to save a new Participant: " + exp.Message.ToString(), exp);
+            }
+        }
+        
     }
 }
