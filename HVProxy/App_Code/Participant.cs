@@ -17,7 +17,7 @@ namespace HVProxy.Models
 
         public DateTime TimeTokenGenerated { get; set; }
 
-        [StringLength(100)]
+        [StringLength(24)]
         public string ParticipantCode { get; set; }
 
         [StringLength(100)]
