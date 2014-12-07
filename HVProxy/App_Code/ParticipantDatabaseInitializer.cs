@@ -7,7 +7,7 @@ using System.Data.Entity;
 
 namespace HVProxy.Models
 {
-    public class ParticipantDatabaseInitializer : DropCreateDatabaseIfModelChanges<ParticipantContext>
+    public class ParticipantDatabaseInitializer : DropCreateDatabaseAlways<ParticipantContext>
     {
         protected override void Seed(ParticipantContext context)
         {
@@ -25,8 +25,8 @@ namespace HVProxy.Models
                             SecurityQuestion = "A very secret question",
                             SecurityAnswer = "A very secret answer",
                             HasAuthorised = false,
-                            PersonId = Guid.NewGuid(),
-                            RecordId = Guid.NewGuid()
+                            PersonId = null,
+                            RecordId = null
                         },
                         new Participant {
                             ParticipantId = Guid.NewGuid(),
@@ -36,8 +36,8 @@ namespace HVProxy.Models
                             SecurityQuestion = "Favourite restaurant",
                             SecurityAnswer = "Chipotle",
                             HasAuthorised = false,
-                            PersonId = Guid.NewGuid(),
-                            RecordId = Guid.NewGuid()
+                            PersonId = null,
+                            RecordId = null
                         }
             };
             return participants;

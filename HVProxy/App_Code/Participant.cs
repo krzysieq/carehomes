@@ -28,8 +28,8 @@ namespace HVProxy.Models
 
         public bool HasAuthorised { get; set; }
 
-        public Guid PersonId { get; set; }
+        public Guid? PersonId { get; set; }
 
-        public Guid RecordId { get; set; }
+        public Guid? RecordId { get; set; }
     }
 }
