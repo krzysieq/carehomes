@@ -7,7 +7,7 @@ using System.Data.Entity;
 
 namespace HVProxy.Models
 {
-    public class ParticipantDatabaseInitializer : DropCreateDatabaseAlways<ParticipantContext>
+    public class ParticipantDatabaseInitializer : DropCreateDatabaseIfModelChanges<ParticipantContext>
     {
         protected override void Seed(ParticipantContext context)
         {
