@@ -15,7 +15,7 @@ namespace HVProxy.Models
         [StringLength(100)]
         public string ParticipantName { get; set; }
 
-        public TimeSpan TimeTokenGenerated { get; set; }
+        public DateTime TimeTokenGenerated { get; set; }
 
         [StringLength(100)]
         public string ParticipantCode { get; set; }

@@ -20,13 +20,24 @@ namespace HVProxy.Models
                         new Participant {
                             ParticipantId = 1,
                             ParticipantName = "John Smith",
-                            TimeTokenGenerated = new TimeSpan(),
+                            TimeTokenGenerated = DateTime.Parse("2014-10-01"),
                             ParticipantCode = "AAAABBBBCCCCDDDDEEEEE",
                             SecurityQuestion = "A very secret question",
                             SecurityAnswer = "A very secret answer",
                             HasAuthorised = false,
-                            PersonId = new Guid(),
-                            RecordId = new Guid()
+                            PersonId = Guid.NewGuid(),
+                            RecordId = Guid.NewGuid()
+                        },
+                        new Participant {
+                            ParticipantId = 2,
+                            ParticipantName = "Lisa Jackson",
+                            TimeTokenGenerated = DateTime.Parse("2014-12-06"),
+                            ParticipantCode = "12341234123412341234",
+                            SecurityQuestion = "Favourite restaurant",
+                            SecurityAnswer = "Chipotle",
+                            HasAuthorised = false,
+                            PersonId = Guid.NewGuid(),
+                            RecordId = Guid.NewGuid()
                         }
             };
             return participants;
