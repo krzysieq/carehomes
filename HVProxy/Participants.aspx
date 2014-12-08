@@ -21,6 +21,7 @@
     </style>
 </head>
 <body>
+    <form id="form1" runat="server">
     <asp:ListView ID="productList" runat="server" 
                 DataKeyNames="ParticipantId"
                 ItemType="HVProxy.Models.Participant" SelectMethod="GetParticipants">
@@ -56,5 +57,7 @@
                     </tr>
                 </ItemTemplate>
             </asp:ListView>
+        <asp:Button ID="GetValidatedConnectionsBtn" runat="server" Text="Get Validated Connections" />
+    </form>
 </body>
 </html>
