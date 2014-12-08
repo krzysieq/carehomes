@@ -49,7 +49,7 @@ public partial class Participants : System.Web.UI.Page
     public IQueryable<Participant> GetParticipants()
     {
         var db = new HVProxy.Models.ParticipantContext();
-        IQueryable<Participant> query = db.Participants;
+        IQueryable<Participant> query = db.Participants.OrderByDescending(item => item.TimeTokenGenerated);
         return query;
     }
 }
