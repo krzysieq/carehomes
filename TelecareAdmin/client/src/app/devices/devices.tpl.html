@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <h3 class="modal-title">Device Manager: {{participant.name}}</h3>
+</div>
+<div class="modal-body">
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>Devices</th>
+            <th>Status</th>
+            <th>Authorisation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="device in devices">
+            <td><img ng-src="{{device.picture}}" style="width: 100px"> {{device.vendor}}</td>
+            <td>
+                <div ng-repeat="sensor in device.sensors" ng-switch="sensor.status">
+                    <p ng-switch-when="0" class="text-muted"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> {{sensor.name}}: Not connected</p>
+                    <p ng-switch-when="1" class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {{sensor.name}}: Failed to connect</p>
+                    <p ng-switch-when="2" class="text-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{sensor.name}}: Connected</p>
+                </div>
+            </td>
+            <td>
+                <button ng-show="device.authorised" class="btn btn-danger" ng-click="deauthorise(device)">
+                    <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> Remove
+                </button>
+                <button ng-hide="device.authorised" class="btn btn-warning" ng-click="authorise(device)">
+                    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Authorise
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button ng-click="ok()" type="button" class="btn btn-primary">Close</button>
+</div>

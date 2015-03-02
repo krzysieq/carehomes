@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h3 class="modal-title">Activation Required</h3>
+</div>
+<div class="modal-body">
+    <p>The following instructions should be provided to the Participant to enable them to authorise the application:</p>
+    <div class="well">
+        <p>Participant Name: {{participant.name}}<br>
+            Date of Birth: {{participant.dob | simpleDate}}<br>
+            Date of Registration: {{participant.enrollmentDate | simpleDate}}</p>
+        <hr>
+        <p>Please navigate to<br>
+            <a href="https://account.healthvault-ppe.co.uk/patientconnect.aspx">https://account.healthvault-ppe.co.uk/patientconnect.aspx</a><br>
+            to complete the activation process, using the information below:</p>
+        <p>Activation Code: <code>{{participant.activationCode}}</code></p>
+        <p>Secret Question: {{participant.secretQuestion}}</p>
+        <p>Secret Answer: <i>Please make sure you remember your answer.</i></p>
+    </div>
+    <button type="button" class="btn btn-link">Print this message</button>
+</div>
+<div class="modal-footer">
+    <button ng-click="ok()" type="button" class="btn btn-primary">Close</button>
+</div>

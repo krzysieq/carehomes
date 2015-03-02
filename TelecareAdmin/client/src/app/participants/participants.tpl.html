@@ -1,0 +1,81 @@
+<div class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Enrolled Participants</a>
+        </div>
+        <form class="navbar-form navbar-left">
+            <div class="input-group" style="margin-left: 40px">
+                <input type="text" class="form-control" placeholder="Search" ng-model="search.query">
+                <span class="input-group-btn">
+                    <button class="btn btn-default">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+            <select class="form-control" ng-model="search.activated">
+                <option value="all">All</option>
+                <option value="true">Activated only</option>
+                <option value="false">Not activated only</option>
+            </select>
+        </form>
+        <div class="navbar-form navbar-right">
+            <button class="btn btn-default">
+                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Refresh Activations
+            </button>
+            <button class="btn btn-primary" ng-click="newParticipant()">
+                <span class="glyphicon glyphicon-plus-sign"></span> New Participant
+            </button>
+        </div>
+    </div>
+</div>
+<div class="container">
+
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th class="col-md-3">Name</th>
+            <th class="col-md-2">Date of Birth</th>
+            <th class="col-md-2">Enrollment Date</th>
+            <th class="col-md-2">Activated</th>
+            <th class="col-md-2">Devices</th>
+            <th class="col-md-1">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="participant in paginatedParticipants">
+                <td>{{participant.name}}</td>
+                <td>{{participant.dob | simpleDate}}</td>
+                <td>{{participant.enrollmentDate | simpleDate}}</td>
+                <td>
+                    <span ng-show="participant.activated"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Yes</span>
+                    <a ng-hide="participant.activated" ng-click="activationInfo(participant)"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> No</a>
+                </td>
+                <td>
+                    <button class="btn btn-warning" ng-disabled="!participant.activated" ng-click="manageDevices(participant)">
+                         Manage Devices
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-default" ng-click="edit(participant)">
+                    <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Edit
+                    </button>
+                </td>
+            </tr>
+
+            <!--Show a message if no results found-->
+            <tr ng-show="filteredParticipants.length == 0">
+                <td colspan="6"><p class="text-danger">Search returned no results. <a ng-click="resetSearch()">Display all?</a></p></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="clearfix" >
+        <div class="pull-left">
+            <pagination page="currentPage" items-per-page="itemsPerPage" total-items="filteredParticipants.length"
+                    previous-text="« Previous" next-text="Next »"></pagination>
+        </div>
+        <div class="pull-right">
+            <p class="pull-right text-muted" style="margin: 25px 0">{{filteredParticipants.length}} results</p>
+        </div>
+    </div>
+</div>
