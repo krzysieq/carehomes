@@ -1,0 +1,117 @@
+body {background:url(images/bg.jpg) fixed; margin:0px; padding:0px; font-family: 'Source Sans Pro', sans-serif;}
+
+h1,h2,h3,h4,h5,h6,p,ul {padding:0px; margin:0px;}
+:focus {outline:0;}
+
+h1 {font-size:14px; line-height:40px; background:url(images/header-bg.jpg) repeat-x; padding-left:10px; color:#981149; text-transform:uppercase; margin-right:10px;}
+h2 {font-size:14px; line-height:40px; background:url(images/header-gray-bg.jpg); padding-left:10px; color:#fff; text-transform:uppercase; border-left:5px solid #a01550;}
+h3 {font-size:14px; color:#c61e64; line-height:35px; text-transform:uppercase;}
+h4 {font-size:12px; color:#333; line-height:25px;}
+.main-bg {background:#FFFFFF; padding:10px;}
+
+.search-field {background:#f8f8f8; font-size:12px; color:#999; width:250px; padding:7px; border:1px solid #CCCCCC;}
+
+.black-btn {background:#0e0c0d; font-size:12px; text-transform:uppercase; padding:7px 15px; border:1px solid #999999; color:#FFFFFF;  -webkit-transition: all 1s ease; -moz-transition: all 1s ease;}
+.black-btn:hover {background:#c71e65; cursor:pointer;}
+
+.pink-btn {background: url(images/menu-bg.jpg) repeat-x; font-size:12px; text-transform:uppercase; padding:7px 15px; border:1px solid #999999; color:#FFFFFF;  border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px;}
+.pink-btn:hover {background:url(images/menu-hover.jpg) repeat-x; cursor:pointer;}
+
+.top-link {font-size:13px; text-align:right;}
+.top-link a {color:#333; text-decoration:none;}
+.top-link a:hover {color:#c71e65;}
+
+.currency-bg {background:#c71e65; font-size:13px; text-transform:uppercase; padding:5px 10px; color:#FFFFFF;} 
+.currency-filed {background:#333333; padding:5px; color:#FFFFFF; width:80px; border:0px; font-size:12px; cursor:pointer; text-transform:uppercase;}
+
+.mycart {font-size:14px; color:#9b124b;}
+.mycart a {color:#333333; font-size:13px; text-decoration:none;}
+.mycart a:hover {color:#999999;}
+
+.number {font-size:18px; color:#666;}
+
+.guest {font-size:14px; color:#666666; text-align:right; line-height:25px;}
+
+.new-product {background:url(images/new-bg.jpg) no-repeat; font-size:24px; color:#CCCCCC; text-align:center; text-transform:uppercase;} 
+.new-product img {margin:8px 0;}
+.new-product a {color:#FFFFFF; text-decoration:none; font-size:13px; line-height:30px;}
+.new-product a:hover {color:#f684b3;}
+
+.product-list li {margin:10px 10px 0 0; width:242px; list-style:none; float:left;}
+.product-list li p {font-size:12px; color:#d36493; padding:3px 0;}
+.product-list li .price {color:#a93588; padding-bottom:5px; font-size:18px; font-weight:bold}
+.product-list li .price span {color:#333; text-decoration:line-through; font-size:13px;}
+.product-list .last { margin-right:0px;}
+
+.top-seller li {width:257px; font-size:15px; color:#844c96; border-bottom:1px solid #CCCCCC; list-style:none; min-height:155px; margin-top:10px;}
+.top-seller li p {font-size:12px; color:#d36493; padding:3px 0;}
+.top-seller img {float:left; margin-right:10px;}
+.top-seller li .price {color:#a93588; padding-bottom:5px; font-size:20px; font-weight:bold}
+.top-seller li .price span {color:#333; text-decoration:line-through; font-size:14px;}
+
+.bottom {background: url(images/footer-bg.jpg) repeat-x; font-size:12px; border-radius:5px 5px 0 0;}
+.bottom ul {padding:0px; margin:10px 50px 10px 20px; float:left;}
+.bottom li {list-style:none; padding:2px 0;}
+.bottom li a {color:#666; text-decoration:none;}
+.bottom li a:hover {color:#a01550;}
+.footer {border-top:1px solid #CCCCCC; padding:10px 0; color:#999999; font-size:11px; text-align:right; line-height:18px;}
+.footer a {color:#999999; text-decoration:none;}
+.footer a:hover {color:#333333;}
+
+.path {font-size:12px; color:#666; line-height:30px;}
+
+.brands {margin-right:20px; color:#666666; width:237px; font-size:13px;}
+.brands ul { border-bottom:1px dashed #CCCCCC; padding-bottom:10px;}
+.brands li {list-style:none; padding:2px 0;}
+.brands input {float:left; margin-right:5px!important;}
+
+.color {margin-right:20px; width:237px;}
+.color ul { border-bottom:1px dashed #CCCCCC; padding-bottom:10px; display:inline-block;}
+.color li {list-style:none; float:left; width:30px; height:20px; }
+
+
+.details {font-size:12px; color:#666666;}
+.details p {padding:5px 0;}
+.details .price {color:#a93588; font-size:30px; font-weight:bold; line-height:25px;}
+.details .price span {color:#333; text-decoration:line-through; font-size:20px;}
+.details .stock-red {color:#FF0000; font-size:15px; }
+.details .stock-green {color:#009900; font-size:15px;}
+.details .wishlist a {color:#a93588; text-decoration:underline;}
+.details .wishlist a:hover {text-decoration:none;}
+.details .blouse {font-size:14px; color:#333333;}
+.details .blouse a {color:#a93588; text-decoration:underline; font-weight:bold; padding-left:10px;}
+.details .blouse a:hover {text-decoration:none;}
+
+.thumb img {float:left; margin:10px 4px; border:1px dashed #999999; -webkit-transition: all 1s ease; -moz-transition: all 1s ease;}
+.thumb img:hover {border-color:#FF3366; -webkit-transform:scale(1.1); -moz-transform:scale(1.1);}
+
+.shopping {font-size:13px; color:#666666;}
+
+.normal {font-size:12px; color:#666;}
+.normal p {padding:5px 0; line-height:20px; text-align:justify;}
+.normal a {color:#FF3366;}
+.normal a:hover {text-decoration:none;}
+.normal li {list-style:square; margin-left:25px; padding:3px 0;}
+
+.textfield {background:#f8f8f8; font-size:12px; color:#999; width:250px; padding:7px; border:1px solid #CCCCCC; margin:2px 0;}
+
+.numericpage a {float:left; margin:5px 1px; padding:5px 10px; background:#eeeeee; color:#666; text-decoration:none; border:1px solid #CCCCCC; font-size:11px;}
+.numericpage a:hover {background:#c70075; color:#FFFFFF;}
+
+.quantity {font-size:12px; color:#333; width:50px; padding:2px; border:1px solid #CCCCCC;}
+.blouse-field {font-size:12px; color:#333; width:200px; padding:4px; border:1px solid #CCCCCC; margin:5px 0;}
+
+
+.accordion_headings
+{
+font-size:14px; line-height:40px; background:url(images/header-gray-bg.jpg); padding-left:10px; color:#fff; text-transform:uppercase; border-left:5px solid #a01550; cursor:pointer;
+}
+
+.accordion_child
+{
+ padding: 15px;
+font-size:12px;
+
+}
+
+.header_highlight {background:url(images/menu-bg.jpg);}

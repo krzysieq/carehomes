@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="250"
+   height="120"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="blood_press.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2"
+     inkscape:cx="161.44495"
+     inkscape:cy="25.688789"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     width="250px"
+     showguides="false"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1321"
+     inkscape:window-height="747"
+     inkscape:window-x="45"
+     inkscape:window-y="21"
+     inkscape:window-maximized="1">
+    <sodipodi:guide
+       orientation="1,0"
+       position="15.25,96.75"
+       id="guide2991" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="91.5,21"
+       id="guide3771" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="122.5,31"
+       id="guide3773" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="116,84.5"
+       id="guide3779" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="230.5,84.5"
+       id="guide3781" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-932.36218)">
+    <text
+       xml:space="preserve"
+       style="font-size:27.6996994px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Days One;-inkscape-font-specification:Days One"
+       x="15.25"
+       y="967.86218"
+       id="text2985"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2987"
+         x="15.25"
+         y="967.86218"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:0px;font-family:Segoe UI;-inkscape-font-specification:Segoe UI">Blood pressure</tspan></text>
+    <rect
+       style="fill:#fff6d5;fill-opacity:0.94610781000000010;stroke:none"
+       id="rect2989"
+       width="100"
+       height="47"
+       x="15.25"
+       y="984.36218" />
+    <path
+       style="fill:none;stroke:#640024;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 24.04163,74.473088 42.254834,61.017244 88.772233,66.674098 105.09115,80.144661"
+       id="path2993"
+       inkscape:connector-curvature="0"
+       transform="translate(0,932.36218)"
+       sodipodi:nodetypes="cccc" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Days One;-inkscape-font-specification:Days One"
+       x="119.74263"
+       y="1021.3622"
+       id="text3763"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3765"
+         x="119.74263"
+         y="1021.3622"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Segoe UI;-inkscape-font-specification:Segoe UI">89/56</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Days One;-inkscape-font-specification:Days One"
+       x="206.7981"
+       y="1009.1646"
+       id="text3767"
+       sodipodi:linespacing="100%"><tspan
+         sodipodi:role="line"
+         id="tspan3769"
+         x="206.7981"
+         y="1009.1646"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:100%;font-family:Segoe UI;-inkscape-font-specification:Segoe UI">mm</tspan><tspan
+         sodipodi:role="line"
+         x="206.7981"
+         y="1021.1646"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:100%;font-family:Segoe UI;-inkscape-font-specification:Segoe UI"
+         id="tspan3890">Hg</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#999999;fill-opacity:1;stroke:none;font-family:Days One;-inkscape-font-specification:Days One"
+       x="182.5"
+       y="967.86218"
+       id="text3775"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3777"
+         x="182.5"
+         y="967.86218"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#999999;font-family:Segoe UI;-inkscape-font-specification:Segoe UI">yesterday</tspan></text>
+    <path
+       sodipodi:nodetypes="cccc"
+       inkscape:connector-curvature="0"
+       id="path3048"
+       d="m 24.04163,1020.6239 18.920311,3.8682 45.810292,-3.5355 16.318917,5.3388"
+       style="fill:none;stroke:#640024;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+  </g>
+</svg>

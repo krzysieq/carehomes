@@ -1,0 +1,165 @@
+﻿<!doctype html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TeleCare</title>
+    <link rel="stylesheet" href="css/metro-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/iconFont.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/metro-tab-control.js"></script>
+    <script src="js/metro-tile-transform.js"></script>
+    <style>
+        body {
+            padding: 80px 100px;
+        }
+
+        .window {
+            width: 900px;
+            margin: 0 auto;
+        }
+
+        .window, .frame {
+            overflow: auto;
+        }
+
+        #header {
+            margin: 20px 0 20px 20px !important;
+        }
+
+        .tabs {
+            padding-left: 16px !important;
+        }
+
+        a {
+            color: inherit !important;
+        }
+    </style>
+</head>
+<body class="metro">
+    <div class="window shadow">
+        <div class="caption">
+            <span class="icon icon-phone"></span>
+            <div class="title">TeleCare</div>
+            <button class="btn-min"></button>
+            <button class="btn-max"></button>
+            <button class="btn-close"></button>
+        </div>
+        <div class="content  bg-darkCrimson">
+            <div class="grid">
+                <div class="row fg-white" id="header">
+                    <div class="span4"><h1 class="fg-white">Dorothy Drake</h1></div>
+                    <div class="span2"><p class="fg-white"><br>Female, 78<br><span class="fg-olive">Kent</span></p></div>
+                </div>
+            </div>
+
+
+            <div class="tab-control" data-role="tab-control">
+                <ul class="tabs">
+                    <li class="active"><a href="#_page_1">Health tracking</a></li>
+                    <li><a href="#_page_2">Environment</a></li>
+                    <li><a href="#_page_3">Background information</a></li>
+                </ul>
+
+                <div class="frames bg-white">
+                    <div class="frame" id="_page_1">
+                        <div class="tile double" data-click="transform">
+                            <div class="tile-content image">
+                                <img src="tiles/weight.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="tile double" data-click="transform" id="tile_steps">
+                            <div class="tile-content image" href="#_details_steps">
+                                <img src="tiles/steps.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="tile double" data-click="transform">
+                            <div class="tile-content image">
+                                <img src="tiles/body_temp.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="tile double op1" data-click="transform">
+                            <div class="tile-content image">
+                                <img src="tiles/spo2.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="tile double" data-click="transform">
+                            <div class="tile-content image">
+                                <img src="tiles/blood_press.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="frame" id="_page_2">
+                        <div class="tile double double-vertical" data-click="transform">
+                            <div class="tile-content image">
+                                <img src="tiles/motion.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="tile double" data-click="transform">
+                            <div class="tile-content image">
+                                <img src="tiles/ambient_temp.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="tile double" data-click="transform">
+                            <div class="tile-content image">
+                                <img src="tiles/co.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="tile double" data-click="transform">
+                            <div class="tile-content image">
+                                <img src="tiles/smoke.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="frame" id="_page_3">
+                        <div class="tile double double-vertical" data-click="transform">
+                            <div class="tile-content image">
+                                <img src="tiles/conditions.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="tile double double-vertical" data-click="transform">
+                            <div class="tile-content image">
+                                <img src="tiles/allergies.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="tile double double-vertical" data-click="transform">
+                            <div class="tile-content image">
+                                <img src="tiles/medications.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="frame" id="_details_steps">
+                        <h2><a href="#" id="steps_close"><i class="icon-arrow-left-3"></i></a> Steps</h2>
+                        <img src="tiles/steps-details.svg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/metro.min.html"></script>
+    <script>
+        $('.tab-control').tabcontrol();
+
+        $("#tile_steps").on('click', function () {
+            $('.frame').hide();
+            $('#_details_steps').show();
+
+        });
+
+        $('#steps_close').on('click', function () {
+            $('.frame').hide();
+            $('#_page_1').show();
+        });
+
+        $('.tile').each(function () {
+            var opacity = Math.random();
+            $(this).css("background-color", "rgb(238,238,238," + opacity + ")");
+        });
+    </script>
+</body>
+<!-- Mirrored from students.cs.ucl.ac.uk/2014/group15/uiprototype/desktop-opacity.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 26 Jan 2015 18:49:06 GMT -->
+</html>

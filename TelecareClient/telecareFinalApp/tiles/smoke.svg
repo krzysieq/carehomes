@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="250"
+   height="120"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="smoke.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8284272"
+     inkscape:cx="112.68548"
+     inkscape:cy="76.935061"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     width="250px"
+     showguides="false"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1321"
+     inkscape:window-height="747"
+     inkscape:window-x="45"
+     inkscape:window-y="21"
+     inkscape:window-maximized="1">
+    <sodipodi:guide
+       orientation="1,0"
+       position="15.25,96.75"
+       id="guide2991" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="91.5,21"
+       id="guide3771" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="122.5,31"
+       id="guide3773" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="116,84.5"
+       id="guide3779" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="230.5,84.5"
+       id="guide3781" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-932.36218)">
+    <text
+       xml:space="preserve"
+       style="font-size:27.6996994px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Days One;-inkscape-font-specification:Days One"
+       x="15.25"
+       y="967.86218"
+       id="text2985"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2987"
+         x="15.25"
+         y="967.86218"
+         style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Segoe UI;-inkscape-font-specification:Segoe UI">Smoke</tspan></text>
+    <rect
+       style="fill:#fff6d5;fill-opacity:0.94610781000000010;stroke:none"
+       id="rect2989"
+       width="100"
+       height="47"
+       x="15.25"
+       y="984.36218" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Days One;-inkscape-font-specification:Days One"
+       x="136.29289"
+       y="1021.3622"
+       id="text3763"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3765"
+         x="136.29289"
+         y="1021.3622"
+         style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Segoe UI;-inkscape-font-specification:Segoe UI">not detected</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#999999;fill-opacity:1;stroke:none;font-family:Days One;-inkscape-font-specification:Days One"
+       x="194.86397"
+       y="967.86218"
+       id="text3775"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3777"
+         x="194.86397"
+         y="967.86218"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#999999;font-family:Segoe UI;-inkscape-font-specification:Segoe UI">today</tspan></text>
+    <rect
+       style="fill:#640024;fill-opacity:0.94509804;stroke:none"
+       id="rect3823"
+       width="7.3774171"
+       height="0.28947577"
+       x="22.25"
+       y="1021.0728" />
+    <rect
+       y="996.31879"
+       x="44.093143"
+       height="25.043417"
+       width="7.3774171"
+       id="rect3827"
+       style="fill:#640024;fill-opacity:0.94509804;stroke:none" />
+    <rect
+       y="1021.0728"
+       x="32.8125"
+       height="0.28947577"
+       width="7.3774171"
+       id="rect3021"
+       style="fill:#640024;fill-opacity:0.94509804;stroke:none" />
+    <rect
+       style="fill:#640024;fill-opacity:0.94509804;stroke:none"
+       id="rect3023"
+       width="7.3774171"
+       height="0.28947577"
+       x="54.875"
+       y="1021.0728" />
+    <rect
+       y="1021.0728"
+       x="65.625"
+       height="0.28947577"
+       width="7.3774171"
+       id="rect3025"
+       style="fill:#640024;fill-opacity:0.94509804;stroke:none" />
+    <rect
+       style="fill:#640024;fill-opacity:0.94509804;stroke:none"
+       id="rect3027"
+       width="7.3774171"
+       height="0.28947577"
+       x="76.5"
+       y="1021.0728" />
+    <rect
+       y="1021.0728"
+       x="87.5625"
+       height="0.28947577"
+       width="7.3774171"
+       id="rect3029"
+       style="fill:#640024;fill-opacity:0.94509804;stroke:none" />
+    <rect
+       style="fill:#640024;fill-opacity:0.94509804;stroke:none"
+       id="rect3031"
+       width="7.3774171"
+       height="0.28947577"
+       x="98.4375"
+       y="1021.0728" />
+  </g>
+</svg>
