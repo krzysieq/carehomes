@@ -1,0 +1,16 @@
+{
+  "name": "telecareDashboard",
+  "version": "0.1.0",
+  "devDependencies": {
+    "angular": "~1.2",
+    "angular-mocks": "~1.2",
+    "bootstrap": "~3.1",
+    "angular-bootstrap": "~0.10.0",
+    "angular-ui-router": "~0.2",
+    "angular-animate": "~1.2.0",
+    "angular-sanitize": "~1.2.0",
+    "highcharts-ng": "~0.0.8",
+    "sprintf": "~1.0.2"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,117 @@
+@chart-background-color: #FEF5D6;
+
+.header {
+  position: relative;
+  margin-bottom: 20px;
+}
+.header .info {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.header a {
+  color: inherit;
+}
+.header a:hover {
+  text-decoration: inherit;
+}
+
+
+.tile {
+  width: 250px;
+  height: 120px;
+  overflow: hidden;
+  margin: 10px;
+  border-radius: 0;
+  white-space: nowrap;
+  float: left;
+  background-color: #EEEEEE;
+  border: 0;
+}
+
+.tile:hover {
+  outline: 3px solid #999;
+  cursor: pointer;
+}
+
+.tile .row {
+  position: relative;
+}
+
+.tile .bottom-right {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  text-align: right;
+}
+
+.tile .row.first {
+  margin-bottom: 10px;
+}
+
+.tile h3 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 400;
+}
+.tile .updated {
+  font-size: 12px;
+  font-weight: 200;
+  color: #9E9E9E;
+}
+
+.tile .value .number{
+  font-size: 30px;
+  font-weight: 400;
+}
+.tile .value .units {
+  font-size: 16px;
+  font-weight: 200;
+
+}
+
+.tile .chart {
+  width: 100px;
+  height: 50px;
+  background-color: @chart-background-color;
+}
+
+.tile.list {
+  height: 250px;
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .none {
+    font-weight: 200;
+  }
+}
+
+.search-results {
+  width: 80%;
+  td:hover {
+    cursor: pointer;
+  }
+  th:nth-of-type(1) {
+    width: 50%;
+  }
+  th:nth-of-type(2) {
+    width: 30%;
+  }
+  th:nth-of-type(3) {
+    width: 20%;
+  }
+}
+
+.navigate-back {
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+}
+
+.chart {
+  background-color: @chart-background-color;
+  height: 200px;
+}

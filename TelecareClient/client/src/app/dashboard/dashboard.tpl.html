@@ -1,0 +1,72 @@
+<div class="row header">
+    <div class="col-md-5 name">
+        <div class="search form-group has-feedback">
+            <input id="search-field" class="form-control" type="text" ng-model="search.query"
+                   ng-focus="search.active = true; thing = null" ng-blur="" placeholder="Search"/>
+            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+        </div>
+    </div>
+    <div class="col-md-7 info" ng-hide="search.active">
+        <p>{{participant.gender | capitalise}}, {{participant.age}}</p>
+    </div>
+</div>
+
+<tabset ng-hide="search.active || thing">
+    <tab heading="Health tracking">
+        <div class="page">
+            <div ng-repeat="thing in things.health">
+                <thing-tile thing="thing" ng-click="showThing(thing)"></thing-tile>
+            </div>
+        </div>
+    </tab>
+    <tab heading="Environment">
+        <div class="page">
+            <div ng-repeat="thing in things.environment">
+                <thing-tile thing="thing" ng-click="showThing(thing)"></thing-tile>
+            </div>
+        </div>
+    </tab>
+    <tab heading="Background information">
+        <div class="page">
+            <div ng-repeat="thing in things.background">
+                <thing-tile thing="thing" ng-click="showThing(thing)"></thing-tile>
+            </div>
+        </div>
+    </tab>
+</tabset>
+
+<div class="page" ng-show="search.active" ng-init="init()">
+    <table class="table table-hover search-results">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date of birth</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="participant in paginatedParticipants" ng-click="selectParticipant(participant)">
+                <td>{{participant.name}}</td>
+                <td>{{participant.dob}}</td>
+                <td>{{participant.age}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination page="currentPage" items-per-page="itemsPerPage" total-items="filteredParticipants.length"
+                previous-text="« Previous" next-text="Next »"></pagination>
+</div>
+
+<div class="page" ng-show="thing">
+    <h3 class="navigate-back"><a href="" ng-click="thing = null"><i class="fa fa-arrow-circle-o-left"></i>
+        &nbsp;<span ng-bind-html="thing.title"></span></a></h3>
+    <div class="row" ng-show="thing.chart">
+        <div class="col-md-6">
+            <div class="chart">
+                <highchart config="thing.chart"></highchart>
+            </div>
+        </div>
+        <div class="col-md-6" ng-bind-html="thing.details"></div>
+    </div>
+</div>
+
+

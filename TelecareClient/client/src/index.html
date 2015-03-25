@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="telecareDashboard" ng-controller="AppCtrl">
+  <head>
+    <title ng-bind="pageTitle"></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta charset="utf-8">
+
+    <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
+    <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
+
+    <!-- font awesome from BootstrapCDN -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
+    <script type="text/javascript" src="<%= file %>"></script><% }); %>
+
+    <!-- Highcharts.js -->
+    <script src="http://code.highcharts.com/adapters/standalone-framework.js"></script>
+    <script src="http://code.highcharts.com/highcharts.src.js"></script>
+
+  </head>
+  <body>
+    <div class="container main" ui-view="main"></div>
+  </body>
+</html>

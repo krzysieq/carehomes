@@ -1,0 +1,30 @@
+<div class="panel panel-default tile" ng-class="type">
+    <div class="panel-body">
+        <div class="row first">
+            <div class="col-md-7">
+                <h3 ng-bind-html="thing.title"></h3>
+            </div>
+            <div class="col-md-5 updated bottom-right">
+                <span am-time-ago="thing.updated"></span>
+            </div>
+        </div>
+        <div class="row second" ng-show="type == 'single'">
+            <div class="col-md-6">
+                <div class="chart">
+                    <highchart config="thing.chartTiny"></highchart>
+                </div>
+            </div>
+            <div class="col-md-6 value bottom-right">
+                <span class="number">{{thing.value.number}}</span> <span class="units">{{thing.value.units}}</span>
+            </div>
+        </div>
+        <div class="row" ng-show="type == 'list'">
+            <div class="col-md-12">
+                <ul>
+                    <li ng-repeat="listItem in thing.list">{{listItem}}</li>
+                    <li ng-hide="thing.list.length" class="none">None reported</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
