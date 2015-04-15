@@ -12,10 +12,12 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using HAMS.Models;
 using HAMS.DTOs;
+using System.Web.Http.Cors;
 
 namespace HAMS.Controllers
 {
     [RoutePrefix("admin/participants")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AdminParticipantsController : ApiController
     {
         private HAMSContext db = new HAMSContext();

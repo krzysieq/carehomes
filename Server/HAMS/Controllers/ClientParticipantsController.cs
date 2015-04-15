@@ -13,10 +13,12 @@ using System.Web.Http.Description;
 using HAMS.DTOs;
 using HAMS.Models;
 using Newtonsoft.Json.Linq;
+using System.Web.Http.Cors;
 
 namespace HAMS.Controllers
 {
     [RoutePrefix("client/participants")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ClientParticipantsController : ApiController
     {
         private HAMSContext db = new HAMSContext();

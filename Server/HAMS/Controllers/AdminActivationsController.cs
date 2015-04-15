@@ -6,10 +6,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Cors;
 
 namespace HAMS.Controllers
 {
     [RoutePrefix("admin/activations")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AdminActivationsController : ApiController
     {
         // POST: admin/activations
