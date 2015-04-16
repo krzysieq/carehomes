@@ -31,7 +31,10 @@ namespace HAMS.HV
             foreach (Guid thingType in queryOrder)
             {
                 HealthRecordFilter filter = new HealthRecordFilter(thingType);
-                filter.EffectiveDateMin = GetMinTime();
+                if (Types.TypeDefinitions.ContainsKey(thingType) && !Types.TypeDefinitions[thingType].Persistent)
+                {
+                    filter.EffectiveDateMin = GetMinTime();
+                }
                 searcher.Filters.Add(filter);
             }
 

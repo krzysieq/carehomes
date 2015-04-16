@@ -42,8 +42,18 @@ namespace HAMS.Devices
             }
         }
 
-        public static double? GetTemperature(string accessToken)
+        public class NestData
         {
+            public double? Temperature { get; set; }
+            public double? Humidity { get; set; }
+            public string CoState { get; set; }
+            public string SmokeState { get; set; }
+        }
+
+        public static NestData GetData(string accessToken)
+        {
+            NestData data = new NestData();
+
             var client = new HttpClient();
             string url = String.Format("https://developer-api.nest.com/?auth={0}", accessToken);
 
@@ -56,20 +66,31 @@ namespace HAMS.Devices
             }
             JObject devices = (JObject) response["devices"];
 
-            if (devices["thermostats"] == null)
+            if (devices["thermostats"] != null)
             {
-                return null;
+                JObject thermostats = (JObject)devices["thermostats"];
+                foreach (var thermostat in thermostats)
+                {
+                    JObject id = (JObject)thermostat.Value;
+                    data.Temperature = (double)id["ambient_temperature_c"];
+                    data.Humidity = (double)id["humidity"];
+                    break; // ignore other devices
+                }
             }
-            JObject thermostats = (JObject)devices["thermostats"];
-
-            foreach (var thermostat in thermostats)
+            
+            if (devices["smoke_co_alarms"] != null)
             {
-                JObject id = (JObject)thermostat.Value;
-                double temperature = (double)id["ambient_temperature_c"];
-                return temperature;
+                JObject smokeAlarms = (JObject)devices["smoke_co_alarms"];
+                foreach (var smokeAlarm in smokeAlarms)
+                {
+                    JObject id = (JObject)smokeAlarm.Value;
+                    data.CoState = (string)id["co_alarm_state"];
+                    data.SmokeState = (string)id["smoke_alarm_state"];
+                    break; // ignore other devices
+                }
             }
 
-            return null;
+            return data;
         }
 
         public static void PushThings()
@@ -78,29 +99,73 @@ namespace HAMS.Devices
             {
                 foreach (var participant in db.Participants.Where(p => p.NestAuthCode != null))
                 {
-                    double? temperature = GetTemperature(participant.NestAuthCode);
-                    if (!temperature.HasValue)
-                    {
-                        continue;
-                    }
-
                     if (!participant.HVPersonId.HasValue || !participant.HVRecordId.HasValue)
                     {
                         continue;
                     }
 
-                    HV.AmbientTemperature temperatureObject = new HV.AmbientTemperature
-                    {
-                        Value = temperature.Value,
-                        Time = DateTime.Now
-                    };
+                    NestData data = GetData(participant.NestAuthCode);
 
-                    HV.Methods.PostCustomThing(
-                        temperatureObject,
-                        new Microsoft.Health.ItemTypes.HealthServiceDateTime(DateTime.Now),
-                        participant.HVPersonId.Value,
-                        participant.HVRecordId.Value
-                    );
+                    if (data.Temperature.HasValue)
+                    {
+                        HV.AmbientTemperature temperatureObject = new HV.AmbientTemperature
+                        {
+                            Value = data.Temperature.Value,
+                            Time = DateTime.Now
+                        };
+                        HV.Methods.PostCustomThing(
+                            temperatureObject,
+                            new Microsoft.Health.ItemTypes.HealthServiceDateTime(DateTime.Now),
+                            participant.HVPersonId.Value,
+                            participant.HVRecordId.Value
+                        );
+                    }
+
+                    if (data.Humidity.HasValue)
+                    {
+                        HV.Humidity humidityObject = new HV.Humidity
+                        {
+                            Value = data.Humidity.Value,
+                            Time = DateTime.Now
+                        };
+                        HV.Methods.PostCustomThing(
+                            humidityObject,
+                            new Microsoft.Health.ItemTypes.HealthServiceDateTime(DateTime.Now),
+                            participant.HVPersonId.Value,
+                            participant.HVRecordId.Value
+                        );
+                    }
+
+                    if (data.CoState != null)
+                    {
+                        HV.CoState coStateObject = new HV.CoState
+                        {
+                            Value = data.CoState,
+                            Time = DateTime.Now
+                        };
+                        HV.Methods.PostCustomThing(
+                            coStateObject,
+                            new Microsoft.Health.ItemTypes.HealthServiceDateTime(DateTime.Now),
+                            participant.HVPersonId.Value,
+                            participant.HVRecordId.Value
+                        );
+                    }
+
+                    if (data.SmokeState != null)
+                    {
+                        HV.SmokeState smokeStateObject = new HV.SmokeState
+                        {
+                            Value = data.SmokeState,
+                            Time = DateTime.Now
+                        };
+                        HV.Methods.PostCustomThing(
+                            smokeStateObject,
+                            new Microsoft.Health.ItemTypes.HealthServiceDateTime(DateTime.Now),
+                            participant.HVPersonId.Value,
+                            participant.HVRecordId.Value
+                        );
+                    }
+                    
                 }
             }
         }
