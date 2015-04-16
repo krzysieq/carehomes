@@ -66,9 +66,15 @@ module.exports = {
       'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
-      'vendor/angular-ui-utils/modules/route/route.js'
+      'vendor/angular-ui-utils/modules/route/route.js',
+      'vendor/angular-resource/angular-resource.min.js',
+      'vendor/moment/min/moment.min.js',
+      'vendor/nya-bootstrap-select/dist/js/nya-bs-select.min.js',
+      'vendor/angular-loading-bar/build/loading-bar.min.js'
     ],
     css: [
+        'vendor/nya-bootstrap-select/dist/css/nya-bs-select.min.css',
+        'vendor/angular-loading-bar/build/loading-bar.min.css'
     ],
     assets: [
         'vendor/bootstrap/fonts/glyphicons-halflings-regular.woff',

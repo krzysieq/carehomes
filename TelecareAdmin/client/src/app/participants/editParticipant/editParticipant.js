@@ -14,7 +14,8 @@ angular.module('telecareAdmin.participants.editParticipant', [
         };
 
         $scope.deleteParticipant = function() {
-            if ($window.confirm("Are you sure you want to delete Participant: " + $scope.participant.name)) {
+            if ($window.confirm("Are you sure you want to delete Participant: " + $scope.participant.firstName + " " +
+                $scope.participant.lastName  + '?')) {
                 $modalInstance.dismiss('delete');
             }
         };

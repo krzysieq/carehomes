@@ -3,8 +3,8 @@
 </div>
 <div class="modal-body">
     <p>The following instructions should be provided to the Participant to enable them to authorise the application:</p>
-    <div class="well">
-        <p>Participant Name: {{participant.name}}<br>
+    <div class="well activation-instructions">
+        <p>Participant Name: {{participant.firstName}} {{participant.lastName}}<br>
             Date of Birth: {{participant.dob | simpleDate}}<br>
             Date of Registration: {{participant.enrollmentDate | simpleDate}}</p>
         <hr>
@@ -15,7 +15,18 @@
         <p>Secret Question: {{participant.secretQuestion}}</p>
         <p>Secret Answer: <i>Please make sure you remember your answer.</i></p>
     </div>
-    <button type="button" class="btn btn-link">Print this message</button>
+    <div class="row">
+        <div class="col-md-3">
+            <button type="button" class="btn btn-link" print-div=".activation-instructions">
+                <span class="glyphicon glyphicon-print"></span> Print<br>this message
+            </button>
+        </div>
+        <div class="col-md-9 pull-right">
+            <p>
+                <img src="assets/connects_with_hv.png" alt="Connects with HealthVault">
+            </p>
+        </div>
+    </div>
 </div>
 <div class="modal-footer">
     <button ng-click="ok()" type="button" class="btn btn-primary">Close</button>

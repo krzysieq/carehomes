@@ -1,5 +1,5 @@
 <div class="navbar navbar-default">
-    <div class="container-fluid">
+    <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Enrolled Participants</a>
         </div>
@@ -12,6 +12,11 @@
                     </button>
                 </span>
             </div>
+            <!--<ol class="nya-bs-select" ng-model="search.activated">-->
+                <!--<li class="nya-bs option" value="all"><a>All</a></li>-->
+                <!--<li class="nya-bs-option" value="true"><a>Activated only</a></li>-->
+                <!--<li class="nya-bs-option" value="false"><a>Not activated only</a></li>-->
+            <!--</ol>-->
             <select class="form-control" ng-model="search.activated">
                 <option value="all">All</option>
                 <option value="true">Activated only</option>
@@ -19,7 +24,7 @@
             </select>
         </form>
         <div class="navbar-form navbar-right">
-            <button class="btn btn-default">
+            <button class="btn btn-default" ng-click="refreshActivations()">
                 <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Refresh Activations
             </button>
             <button class="btn btn-primary" ng-click="newParticipant()">
@@ -35,16 +40,22 @@
         <tr>
             <th class="col-md-3">Name</th>
             <th class="col-md-2">Date of Birth</th>
+            <th class="col-md-1">Gender</th>
             <th class="col-md-2">Enrollment Date</th>
-            <th class="col-md-2">Activated</th>
+            <th class="col-md-1">Activated</th>
             <th class="col-md-2">Devices</th>
             <th class="col-md-1">Actions</th>
         </tr>
         </thead>
         <tbody>
             <tr ng-repeat="participant in paginatedParticipants">
-                <td>{{participant.name}}</td>
+                <td>{{participant.firstName}} {{participant.lastName}}</td>
                 <td>{{participant.dob | simpleDate}}</td>
+                <td ng-switch="participant.gender">
+                    <span ng-switch-when="female">F</span>
+                    <span ng-switch-when="male">M</span>
+                    <span ng-switch-default>--</span>
+                </td>
                 <td>{{participant.enrollmentDate | simpleDate}}</td>
                 <td>
                     <span ng-show="participant.activated"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Yes</span>

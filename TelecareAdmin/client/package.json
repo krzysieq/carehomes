@@ -1,9 +1,17 @@
 {
+  "author": "",
   "name": "telecareAdmin",
-  "version": "0.1",
+  "version": "0.1.0",
+  "main": "bin/index.html",
+  "homepage": "",
   "licenses": {
-    "type": "",
-    "url": ""
+    "type": "MIT",
+    "url": "https://raw.github.com/ngbp/ngbp/master/LICENSE"
+  },
+  "bugs": "https://github.com/ngbp/ngbp/issues",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ngbp/ngbp.git"
   },
   "dependencies": {},
   "devDependencies": {

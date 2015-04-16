@@ -6,7 +6,7 @@ angular.module('telecareAdmin.participants.newParticipant', [
         $scope.participant = participant;
 
         angular.extend($scope.participant, {
-            enrollmentDate: Date.now(),
+            enrollmentDate: new Date(),
             activated: false,
             activationCode: ""
         });

@@ -27,7 +27,7 @@ angular.module( 'telecareAdmin.participants', [
  */
 .config(function config( $stateProvider ) {
   $stateProvider.state( 'participants', {
-    url: '/participants',
+    url: '/',
     views: {
       "main": {
         controller: 'ParticipantsCtrl',
@@ -41,33 +41,65 @@ angular.module( 'telecareAdmin.participants', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'ParticipantsCtrl', function ParticipantsController($scope, $modal, $filter, participantsData) {
+.controller( 'ParticipantsCtrl', function ParticipantsController($scope, $modal, $filter, participantsResource,
+                                                                 participantResource, activationResource) {
 
-        $scope.participants = participantsData;
-        $scope.filteredParticipants = $scope.participants;
+        var retrieveParticipants = function() {
+            participantsResource.query().$promise.then(
+                function(participants) {
+                    $scope.participants = participants;
+                    $scope.filteredParticipants = $scope.participants;
+                    $scope.resetSearch();
+                },
+                function(reason) {
+                    alert('Failed to retrieve data: ' + reason);
+                }
+            );
+        };
 
         $scope.resetSearch = function() {
             $scope.search = {
                 query: '',
                 activated: 'all'
             };
+            $scope.updateView();
         };
 
-        $scope.resetSearch();
-
         $scope.$watch('search', function() {
-            $scope.updateParticipants();
-            $scope.updatePagination();
+            $scope.updateView();
         }, true);
 
 
+        $scope.updateView = function() {
+            $scope.updateParticipants();
+            $scope.updatePagination();
+        };
 
         $scope.updateParticipants = function() {
             var activated = $scope.search.activated == 'true' ? true :
                     $scope.search.activated == 'false' ? false : '';
-            $scope.filteredParticipants = $filter('filter')($scope.participants, {
-                name: $scope.search.query,
-                activated: activated});
+            $scope.filteredParticipants = $filter('filter')($scope.participants, function(value) {
+                if (value.firstName && value.lastName) {
+                    var name = (value.firstName + " " + value.lastName + " " + value.firstName).toLowerCase(),
+                        query = $scope.search.query.toLowerCase();
+                    return (name.contains(query) || $filter('simpleDate')(value.dob).contains(query)) &&
+                        value.activated.toString().contains(activated);
+                } else {
+                    return false;
+                }
+
+            });
+        };
+
+        $scope.refreshActivations = function() {
+            activationResource.update().$promise.then(
+                function() {
+                    retrieveParticipants();
+                },
+                function() {
+                    alert('Failed to retrieve data');
+                }
+            );
         };
 
         $scope.edit = function(participant) {
@@ -84,11 +116,22 @@ angular.module( 'telecareAdmin.participants', [
             });
 
             modalInstance.result.then(function(editedParticipant) {
-                participant.name = editedParticipant.name;
+                // update the resource object
+                participant.firstName = editedParticipant.firstName;
+                participant.lastName = editedParticipant.lastName;
                 participant.dob = editedParticipant.dob;
+                participant.gender = editedParticipant.gender;
+
+                // push changes to the server
+                console.log(participant);
+                participantResource.update({participantId: participant.participantId}, participant);
+
             }, function(reason) {
+                // modal dismissed
                 if (reason === 'delete') {
-                    participant = null;
+                    participantResource.deleteParticipant({participantId: participant.participantId}, participant);
+                    $scope.participants.splice($scope.participants.indexOf(participant));
+                    $scope.updateView();
                 }
             });
         };
@@ -107,9 +150,13 @@ angular.module( 'telecareAdmin.participants', [
             });
 
             modalInstance.result.then(function(createdParticipant) {
-                $scope.participants.push(createdParticipant);
-                $scope.updateParticipants();
-                $scope.activationInfo(createdParticipant);
+                participantsResource.save(createdParticipant).$promise.then(
+                    function(response) {
+                        $scope.participants.push(response);
+                        $scope.updateView();
+                        $scope.activationInfo(response);
+                    }
+                );
             }, function() {
 
             });
@@ -171,6 +218,8 @@ angular.module( 'telecareAdmin.participants', [
         };
 
         $scope.$watch('currentPage + itemsPerPage', $scope.updatePagination);
+
+        retrieveParticipants();
 })
 
 ;

@@ -2,40 +2,59 @@ angular.module('telecareAdmin.devices', [
 
 ])
 
-    .controller('DevicesCtrl', function($scope, $modalInstance, participant) {
+    .controller('DevicesCtrl', function($scope, $modalInstance, participant, deviceResource) {
         $scope.participant = participant;
 
-        $scope.devices = [{
-            vendor: 'Nest',
-            picture: 'assets/devices/nest.png',
-            sensors: [{
-                name: 'Thermostat',
-                status: 2
-            }, {
-                name: 'Protect',
-                status: 1
-            }],
-            authorised: true
-        }, {
-            vendor: 'Kinect',
-            picture: 'assets/devices/kinect.jpg',
-            sensors: [{
-                name: 'Kinect',
-                status: 0
-            }],
-            authorised: false
-        }];
+        var updateDevices = function() {
+            deviceResource.query({participantId: participant.participantId}).$promise.then(
+                function(devices) {
+                    $scope.devices = devices;
+                },
+                function(reason) {
+                    alert('Failed to retrieve data: ' + reason);
+                }
+            );
+        };
 
         $scope.authorise = function(device) {
-            alert('Authorisation callback for API: ' + device.vendor);
+            deviceResource.activate({
+                participantId: participant.participantId,
+                deviceId: device.id
+            }).$promise.then(
+                function(response) {
+                    var authWindow = window.open(response.authUrl, 'Device authorisation',
+                        'centerscreen,width=800,height=500,chrome=yes,scrollbars=yes');
+                    var timer = setInterval(function() {
+                        console.log(authWindow);
+                        if(authWindow.closed) {
+                            clearInterval(timer);
+                            updateDevices();
+                        }
+                    }, 1000);
+                },
+                function(reason) {
+                    alert('Failed to retrieve data: ' + reason);
+                }
+            );
         };
 
         $scope.deauthorise = function(device) {
-            alert('Deauthorisation callback for API: ' + device.vendor);
+            if (confirm("Are you sure you want to remove this device?")) {
+                deviceResource.deactivate({
+                    participantId: participant.participantId,
+                    deviceId: device.id
+                }).$promise.then(
+                    function() {
+                        updateDevices();
+                    }
+                );
+            }
         };
 
         $scope.ok = function() {
             $modalInstance.close();
         };
+
+        updateDevices();
     })
 ;
