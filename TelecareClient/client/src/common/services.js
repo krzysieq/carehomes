@@ -1,120 +1,44 @@
 angular.module('telecareDashboardServices', [])
 
-    .factory('participantsData', function($filter) {
-        var data = [{
-            "id": "d3c9bb26-5073-4000-a9c6-63b028ea2fe7",
-            "firstName": "Dorothy",
-            "lastName": "Drake",
-            name: "Dorothy Drake",
-            "dob": "1945/08/30",
-            gender: "female"
-        }, {
-            "id": "d3c9bb26-5073-4000-a9c6-63b0usfdyf",
-            "firstName": "Adam",
-            "lastName": "Thomson",
-            name: "Adam Thomson",
-            "dob": "1943/08/30",
-            gender: "male"
-        }, {
-            id: "847t93rg9728379r2",
-            firstName: "Samantha",
-            lastName: "Smith",
-            name: "Samantha Smith",
-            dob: "1964/03/14",
-            gender: "female"
-        }];
+    .constant('API_BASE', 'https://hams.azurewebsites.net/client/')
 
-        // calculate age
-        data.forEach(function(participant) {
-            participant.age = moment().diff(moment(participant.dob, 'YYYY/MM/DD'), 'years');
+    .factory('participantResource', function($resource, API_BASE, $http, $filter) {
+        return $resource(API_BASE + 'participants/:participantId', null, {
+            query: {
+                method: 'GET',
+                isArray: true,
+                transformResponse: $http.defaults.transformResponse.concat([function(data) {
+                    data.forEach(function(participant) {
+                        var dobAsMoment = moment(participant.dob);
+
+                        // format date
+                        participant.dob = dobAsMoment.format('YYYY/MM/DD');
+
+                        //calculate age
+                        participant.age = moment().diff(dobAsMoment, 'years');
+
+                        // concatenate names
+                        participant.fullName = participant.firstName + ' ' + participant.lastName;
+                    });
+
+                    // sort alphabetically
+                    data = $filter('orderBy')(data, 'lastName');
+
+                    return data;
+                }])
+            }
         });
-
-        // sort alphabetically
-        data = $filter('orderBy')(data, 'lastName');
-
-        return data;
     })
 
-    .factory('thingsData', function() {
-        return function(participant) {
-            var data = {
+    .factory('thingResource', function($resource, API_BASE) {
+        return $resource(API_BASE + 'participants/:participantId/things');
+    })
 
-                // Health tracking types
+    .service('data', function($resource) {
+        var resource = $resource('http://apifinal2.azurewebsites.net/api/Participants/');
 
-                "weight": [{
-                    "time": "2015-03-03T01:08:29.546Z",
-                    "value": 67
-                }, {
-                    "time": "2015-03-06T01:08:29.546Z",
-                    "value": 67.4
-                }, {
-                    "time": "2015-03-12T14:54:42.612Z",
-                    "value": 65
-                }],
-
-                "steps": [{
-                    "time": "2015-03-03T00:00:00.000Z",
-                    "count": 9875
-                }],
-
-                "bodyTemperature": [{
-                    "time": "2015-03-03T01:08:29.546Z",
-                    "value": 36.5
-                }],
-
-                "bodyOxygen": [{
-                    "time": "2015-03-03T01:08:29.546Z",
-                    "value": 0.97
-                }],
-
-                "bloodPressure": [{
-                    "time": "2015-03-02T07:14:25.854Z",
-                    "systolic": 123,
-                    "diastolic": 68
-                }, {
-                    "time": "2015-03-03T01:08:29.546Z",
-                    "systolic": 134,
-                    "diastolic": 90
-                }],
-
-                // Environment-related types
-
-                "ambientTemperature": [{
-                    "time": "2015-03-03T01:08:29.546Z",
-                    "value": 22.4
-                }],
-
-                "humidity": [{
-                    "time": "2015-03-03T01:08:29.546Z",
-                    "value": 40
-                }],
-
-                "carbonMonoxide": [{
-                    "time": "2015-03-03T01:08:29.546Z",
-                    "status": "ok"
-                }],
-
-                "smoke": [{
-                    "time": "2015-03-03T01:08:29.546Z",
-                    "status": "ok"
-                }],
-
-                // Background information types
-
-                "conditions": [],
-
-                "allergies": [{
-                    "text": "Animal"
-                }, {
-                    "text": "Soy"
-                }],
-
-                "medications": [{
-                    "text": "Ibuprofen"
-                }]
-            };
-
-            return data;
+        this.getParticipants = function() {
+            return resource.get();
         };
     })
 
@@ -125,7 +49,7 @@ angular.module('telecareDashboardServices', [])
             property: 'weight',
             value: {
                 number: function() {
-                    return this.value;
+                    return sprintf('%.1f', this.value);
                 },
                 units: 'kg'
             },
@@ -134,7 +58,8 @@ angular.module('telecareDashboardServices', [])
                     series: [{
                         data: records.map(function (record) {
                             return [new Date(record.time).getTime(), record.value];
-                        })
+                        }),
+                        name: 'Weight'
                     }],
                     options: {
                         chart: {
@@ -144,10 +69,25 @@ angular.module('telecareDashboardServices', [])
                 };
             },
             details: function(records) {
-                var average =  records.map(function(record) {
+                if (records.length === 0) {
+                    return '';
+                }
+                var values = records.map(function(record) {
                     return record.value;
-                }).average();
-                return sprintf('Average weight last week: %.1f kg', average);
+                });
+                var average = values.average(),
+                    change = values.last() - values.first();
+                return sprintf('<p>Average weight last week: <span class="value">%.1f kg</span></p>' +
+                    '<p>Net change last week: <span class="value">%+.1f kg</span></p>',
+                    average, change);
+            },
+            warnings: {
+                value: function(record) {
+                    return false;
+                },
+                time: function(duration) {
+                    return duration.asMonths() > 0;
+                }
             }
         }, {
             category: 'health',
@@ -157,49 +97,219 @@ angular.module('telecareDashboardServices', [])
                 number: function() {
                     return this.systolic + '/' + this.diastolic;
                 },
-                units: 'mm Hg'
-            }
-        }, {
-            category: 'health',
-            title: 'Steps',
-            property: 'steps',
-            value: {
-                number: function() {
-                    return this.count;
+                units: '' // should be 'mmHg' but doesn't fit on the tile
+            },
+            chart: function(records) {
+                return {
+                    series: [{
+                        data: records.map(function (record) {
+                            return [new Date(record.time).getTime(), record.systolic];
+                        }),
+                        name: 'Systolic'
+                    }, {
+                        data: records.map(function (record) {
+                            return [new Date(record.time).getTime(), record.diastolic];
+                        }),
+                        name: 'Diastolic'
+                    }],
+                    options: {
+                        chart: {
+                            type: 'line'
+                        }
+                    }
+                };
+            },
+            details: function(records) {
+                if (records.length === 0) {
+                    return '';
+                }
+                var valuesSystolic = records.map(function(record) {
+                    return record.systolic;
+                });
+                var valuesDiastolic = records.map(function(record) {
+                    return record.diastolic;
+                });
+                return sprintf('<p>Average systolic pressure last week: <span class="value">%.0f mmHg</span></p>' +
+                    '<p>Average diastolic pressure last week: <span class="value">%.0f mmHg</span></p>',
+                    valuesSystolic.average(), valuesDiastolic.average());
+            },
+            warnings: {
+                value: function(record) {
+                    return record.systolic > 130 ||
+                            record.diastolic < 70;
                 },
-                units: ''
+                time: function(duration) {
+                    return duration.asHours() > 24;
+                }
             }
         }, {
             category: 'health',
-            title: 'Body temperature',
-            property: 'bodyTemperature',
+            title: 'Cholesterol',
+            property: 'cholesterol',
             value: {
-                number: function() {
+                number: function () {
+                    return this.total;
+                },
+                units: 'mg/dL'
+            },
+            chart: function (records) {
+                return {
+                    series: [{
+                        data: records.map(function (record) {
+                            return [new Date(record.time).getTime(), record.ldl];
+                        }),
+                        name: 'LDL'
+                    }, {
+                        data: records.map(function (record) {
+                            return [new Date(record.time).getTime(), record.hdl];
+                        }),
+                        name: 'HDL'
+                    }, {
+                        data: records.map(function (record) {
+                            return [new Date(record.time).getTime(), record.total];
+                        }),
+                        name: 'Total'
+                    }],
+                    options: {
+                        chart: {
+                            type: 'line'
+                        }
+                    }
+                };
+            },
+            details: function (records) {
+                if (records.length === 0) {
+                    return '';
+                }
+                var valuesLdl = records.map(function (record) {
+                    return record.ldl;
+                });
+                var valuesHdl = records.map(function (record) {
+                    return record.hdl;
+                });
+                var valuesTotal = records.map(function (record) {
+                    return record.total;
+                });
+                return sprintf('<p>Average Total cholesterol last week: <span class="value">%.0f mm/dL</span></p>' +
+                    '<p>Average LDL last week: <span class="value">%.0f mm/dL</span></p>' +
+                    '<p>Average HDL last week: <span class="value">%.0f mm/dL</span></p>',
+                    valuesTotal.average(), valuesLdl.average(), valuesHdl.average());
+            },
+            warnings: {
+                value: function (record) {
+                    return record.systolic > 130 ||
+                        record.diastolic < 70;
+                },
+                time: function (duration) {
+                    return duration.asHours() > 24;
+                }
+            }
+        }, {
+            category: 'health',
+            title: 'Glucose',
+            property: 'bloodGlucose',
+            value: {
+                number: function () {
                     return this.value;
                 },
-                units: '℃'
-            }
-        }, {
-            category: 'health',
-            title: 'SpO<sub>2</sub>',
-            property: 'bodyOxygen',
-            value: {
-                number: function() {
-                    return this.value * 100;
+                units: 'mg/dL'
+            },
+            chart: function (records) {
+                return {
+                    series: [{
+                        data: records.map(function (record) {
+                            return [new Date(record.time).getTime(), record.value];
+                        }),
+                        name: 'Blood glucose'
+                    }],
+                    options: {
+                        chart: {
+                            type: 'line'
+                        }
+                    }
+                };
+            },
+            details: function (records) {
+                if (records.length === 0) {
+                    return '';
+                }
+                var values = records.map(function (record) {
+                    return record.value;
+                });
+                return sprintf('<p>Average glucose level last week: <span class="value">%.0f mm/dL</span></p>',
+                    values.average());
+            },
+            warnings: {
+                value: function (record) {
+                    return record.value > 130 ||
+                        record.value < 70;
                 },
-                units: '%'
+                time: function (duration) {
+                    return duration.asHours() > 24;
+                }
             }
-        }, {
-            category: 'environment',
-            title: 'Smoke',
-            property: 'smoke',
-            value: {
-                number: function() {
-                    return this.status;
-                },
-                units: ''
-            }
-        }, {
+        },
+        // Not supported by HealthVault platform at the moment
+        //}, {
+        //    category: 'health',
+        //    title: 'SpO<sub>2</sub>',
+        //    property: 'bodyOxygen',
+        //    value: {
+        //        number: function() {
+        //            return this.value * 100;
+        //        },
+        //        units: '%'
+        //    },
+        //    chart: function(records) {
+        //        return {
+        //            series: [{
+        //                data: records.map(function (record) {
+        //                    return [new Date(record.time).getTime(), record.value];
+        //                }),
+        //                name: 'SpO2'
+        //            }],
+        //            options: {
+        //                chart: {
+        //                    type: 'line'
+        //                }
+        //            }
+        //        };
+        //    },
+        //    details: function(records) {
+        //        if (records.length === 0) {
+        //            return '';
+        //        }
+        //        var values = records.map(function(record) {
+        //            return record.value;
+        //        });
+        //        var average = values.average() * 100,
+        //            min = values.min() * 100,
+        //            max = values.max() * 100;
+        //        return sprintf('<p>Average last week: <span class="value">%.1f%%</span></p>' +
+        //            '<p>Lowest last week: <span class="value">%.1f%%</span></p>' +
+        //            '<p>Highest last week: <span class="value">%.1f%%</span></p>',
+        //            average, min, max);
+        //    },
+        //    warnings: {
+        //        value: function(record) {
+        //            return record.value < 0.9;
+        //        },
+        //        time: function(duration) {
+        //            return duration.asDays() > 7;
+        //        }
+        //    }
+        //}, {
+        //    category: 'environment',
+        //    title: 'Smoke',
+        //    property: 'smoke',
+        //    value: {
+        //        number: function() {
+        //            return this.status;
+        //        },
+        //        units: ''
+        //    }
+        //}, {
+           {
             category: 'environment',
             title: 'Temperature',
             property: 'ambientTemperature',
@@ -208,6 +318,255 @@ angular.module('telecareDashboardServices', [])
                     return this.value;
                 },
                 units: '℃'
+            },
+            chart: function(records) {
+                return {
+                    series: [{
+                        data: records.map(function (record) {
+                            return [new Date(record.time).getTime(), record.value];
+                        }),
+                        name: 'Temperature'
+                    }],
+                    options: {
+                        chart: {
+                            type: 'line'
+                        }
+                    }
+                };
+            },
+            details: function(records) {
+                if (records.length === 0) {
+                    return '';
+                }
+                var values = records.map(function(record) {
+                    return record.value;
+                });
+                var average = values.average(),
+                    max = values.max(),
+                    min = values.min();
+                return sprintf('<p>Average temperature last week: <span class="value">%.1f℃</span></p>' +
+                '<p>Lowest temperature last week: <span class="value">%.1f℃</span></p>' +
+                '<p>Highest temperature last week: <span class="value">%.1f℃</span></p>',
+                average, min, max);
+            },
+            warnings: {
+                value: function(record) {
+                    return record.value > 24 ||
+                            record.value < 19;
+                },
+                time: function(duration) {
+                    return duration.asHours() > 24;
+                }
+            }
+        }, {
+            category: 'environment',
+            title: 'Humidity',
+            property: 'humidity',
+            value: {
+                number: function() {
+                    return this.value;
+                },
+                units: '%'
+            },
+            chart: function(records) {
+                return {
+                    series: [{
+                        data: records.map(function (record) {
+                            return [new Date(record.time).getTime(), record.value];
+                        }),
+                        name: 'Humidity'
+                    }],
+                    options: {
+                        chart: {
+                            type: 'line'
+                        }
+                    }
+                };
+            },
+            details: function(records) {
+                if (records.length === 0) {
+                    return '';
+                }
+                var values = records.map(function(record) {
+                    return record.value;
+                });
+                var average = values.average(),
+                    max = values.max(),
+                    min = values.min();
+                return sprintf('<p>Average humidity last week: <span class="value">%.0f%%</span></p>' +
+                    '<p>Lowest humidity last week: <span class="value">%.0f%%</span></p>' +
+                    '<p>Highest humidity last week: <span class="value">%.0f%%</span></p>',
+                    average, min, max);
+            },
+            warnings: {
+                value: function(record) {
+                    return false;
+                },
+                time: function(duration) {
+                    return false;
+                }
+            }
+        }, {
+            category: 'environment',
+            title: 'CO',
+            property: 'carbonMonoxide',
+            value: {
+                number: function() {
+                    if (this.value === 'ok') {
+                        return 'OK';
+                    } else if (this.value === 'warning') {
+                        return 'WARN';
+                    } else if (this.value === 'emergency') {
+                        return 'DANGER';
+                    }
+                    return '--';
+                },
+                units: ''
+            },
+            chart: function(records) {
+                var recordsForChart = records.map(function(record) {
+                    return [
+                        new Date(record.time).getTime(),
+                        (function() {
+                            if (record.value === 'ok') {
+                                return  0;
+                            } else if (record.value === 'warning') {
+                                return 1;
+                            } else if (record.value === 'emergency') {
+                                return 2;
+                            } else {
+                                return 0;
+                            }
+                        })()
+                    ];
+                });
+                return {
+                    series: [{
+                        data: recordsForChart,
+                        name: 'Carbon monoxide status'
+                    }],
+                    yAxis: {
+                        max: 2
+                    },
+                    options: {
+                        chart: {
+                            type: 'column'
+                        }
+                    }
+                };
+            },
+            details: function(records) {
+                var status = (function() {
+                    var current = records.last();
+                    console.log(current);
+                    if (current.value === 'ok') {
+                        return {
+                            status: 'OK',
+                            description: 'No CO detected'
+                        };
+                    } else if (current.value === 'warning') {
+                        return {
+                            status: 'WARNING',
+                            description: 'CO detected'
+                        };
+                    } else if (current.value === 'emergency') {
+                        return {
+                            status: 'EMERGENCY',
+                            description: 'CO detected! Move to fresh air!'
+                        };
+                    }
+                })();
+                return sprintf('<p>The current status is <span class="value">%s</span>%s</p>',
+                    status.status, status.description);
+            },
+            warnings: {
+                value: function(record) {
+                    return record.value !== 'ok';
+                },
+                time: function(duration) {
+                    return false;
+                }
+            }
+        }, {
+            category: 'environment',
+            title: 'Smoke',
+            property: 'smoke',
+            value: {
+                number: function() {
+                    if (this.value === 'ok') {
+                        return 'OK';
+                    } else if (this.value === 'warning') {
+                        return 'WARN';
+                    } else if (this.value === 'emergency') {
+                        return 'DANGER';
+                    }
+                    return '--';
+                },
+                units: ''
+            },
+            chart: function(records) {
+                var recordsForChart = records.map(function(record) {
+                    return [
+                        new Date(record.time).getTime(),
+                        (function() {
+                            if (record.value === 'ok') {
+                                return 0.1;
+                            } else if (record.value === 'warning') {
+                                return 1;
+                            } else if (record.value === 'emergency') {
+                                return 2;
+                            } else {
+                                return 0;
+                            }
+                        })()
+                    ];
+                });
+                return {
+                    series: [{
+                        data: recordsForChart,
+                        name: 'Smoke status'
+                    }],
+                    yAxis: {
+                        max: 2
+                    },
+                    options: {
+                        chart: {
+                            type: 'column'
+                        }
+                    }
+                };
+            },
+            details: function(records) {
+                var status = (function() {
+                    var current = records.last();
+                    console.log(current);
+                    if (current.value === 'ok') {
+                        return {
+                            status: 'OK',
+                            description: 'No smoke detected'
+                        };
+                    } else if (current.value === 'warning') {
+                        return {
+                            status: 'WARNING',
+                            description: 'Smoke detected'
+                        };
+                    } else if (current.value === 'emergency') {
+                        return {
+                            status: 'EMERGENCY',
+                            description: 'Smoke detected! Move to fresh air!'
+                        };
+                    }
+                })();
+                return sprintf('<p>The current status is <span class="value">%s</span>%s</p>',
+                    status.status, status.description);
+            },
+            warnings: {
+                value: function(record) {
+                    return record.value !== 'ok';
+                },
+                time: function(duration) {
+                    return false;
+                }
             }
         }, {
             category: 'background',
@@ -217,6 +576,16 @@ angular.module('telecareDashboardServices', [])
                 list: function(item) {
                     return item.text;
                 }
+            },
+            details: function(records) {
+                if (records.length === 0) {
+                    return '<p>None reported</p>';
+                }
+                return '<ul>' +
+                    records.map(function(record) {
+                        return sprintf('<li>%s</li>', record.text);
+                    }).join('') +
+                    '</ul>';
             }
         }, {
             category: 'background',
@@ -226,6 +595,16 @@ angular.module('telecareDashboardServices', [])
                 list: function(item) {
                     return item.text;
                 }
+            },
+            details: function(records) {
+                if (records.length === 0) {
+                    return '<p>None reported</p>';
+                }
+                return '<ul>' +
+                        records.map(function(record) {
+                            return sprintf('<li>%s</li>', record.text);
+                        }).join('') +
+                        '</ul>';
             }
 
         }, {
@@ -236,6 +615,16 @@ angular.module('telecareDashboardServices', [])
                 list: function(item) {
                     return item.text;
                 }
+            },
+            details: function(records) {
+                if (records.length === 0) {
+                    return '<p>None reported</p>';
+                }
+                return '<ul>' +
+                    records.map(function(record) {
+                        return sprintf('<li>%s</li>', record.text);
+                    }).join('') +
+                    '</ul>';
             }
         }];
     })
@@ -269,13 +658,21 @@ angular.module('telecareDashboardServices', [])
                         newThing.chartTiny = angular.merge({}, newThing.chart, chartConfigTiny);
                         console.log(newThing.chartTiny);
                     }
-                    if (thing.details) {
-                        newThing.details = thing.details(concreteThing);
+                    if (thing.warnings) {
+                        var timeDiff = moment().diff(moment(lastRecord.time));
+                        newThing.warnings = {
+                            value: thing.warnings.value(lastRecord),
+                            time: thing.warnings.time(moment.duration(timeDiff))
+                        };
                     }
                 } else if (thing.value.list) {
                     newThing.list = concreteThing.map(thing.value.list);
                 } else {
                     throw new Error('Invalid format of the thing specification: ' + thing);
+                }
+                if (thing.details) {
+                    newThing.details = thing.details(concreteThing);
+                    console.warn(newThing.details);
                 }
                 things[thing.category].push(newThing);
             });
@@ -298,12 +695,20 @@ angular.module('telecareDashboardServices', [])
                         fontWeight: 'bold'
                     }
                 },
+                plotOptions: {
+                    series: {
+                        animation: {
+                            duration: 200
+                        }
+                    }
+                },
                 credits: {
                     enabled: false
                 },
                 legend: {
                     enabled: false
-                }
+                },
+                colors: ['#640024', '#833350']
             },
             title: {
                 text: null
@@ -326,6 +731,9 @@ angular.module('telecareDashboardServices', [])
         return {
             options: {
                 chart: {
+                    borderWidth: 0,
+                    margin: [0, 0, 0, 0],
+                    spacing: [10, 10, 10, 10]
                 },
                 tooltip: {
                     enabled: false
@@ -339,23 +747,26 @@ angular.module('telecareDashboardServices', [])
                                     enabled: false
                                 }
                             }
-                        }
+                        },
+                        animation: null
                     }
                 }
             },
             xAxis: {
                 labels: {
                     enabled: false
-                }
+                },
+                lineWidth: 0
             },
             yAxis: {
                 labels: {
                     enabled: false
-                }
+                },
+                gridLineWidth: 0
             },
             size: {
-                width: 100,
-                height: 50
+                width: 80,
+                height: 30
             }
         };
     })

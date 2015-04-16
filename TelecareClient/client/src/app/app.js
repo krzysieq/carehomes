@@ -7,14 +7,17 @@ angular.module( 'telecareDashboard', [
     'angularMoment',
     'ngAnimate',
     'ngSanitize',
+    'ngResource',
     'customFilters',
     'telecareDashboardServices',
+    'telecareDashboardDirectives',
     'highcharts-ng',
-    'sprintf'
+    'sprintf',
+    'angular-loading-bar'
 ])
 
 .config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {
-  $urlRouterProvider.otherwise( '/dashboard' );
+  $urlRouterProvider.otherwise( '/' );
 })
 
 .run( function run () {
@@ -31,9 +34,14 @@ angular.module( 'telecareDashboard', [
 ;
 
 
+
 /* Helper methods */
 
-Array.prototype.last = function(){
+Array.prototype.first = function() {
+    return this[0];
+};
+
+Array.prototype.last = function() {
     return this[this.length - 1];
 };
 
@@ -45,6 +53,14 @@ Array.prototype.sum = Array.prototype.sum || function() {
 
 Array.prototype.average = Array.prototype.average || function() {
     return this.sum() / (this.length || 1);
+};
+
+Array.prototype.max = Array.prototype.max || function() {
+    return Math.max.apply(null, this);
+};
+
+Array.prototype.min = Array.prototype.min || function() {
+    return Math.min.apply(null, this);
 };
 
 angular.merge =function(dst){

@@ -6,7 +6,7 @@
 }
 .header .info {
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
   right: 0;
 }
 .header a {
@@ -67,13 +67,17 @@
 .tile .value .units {
   font-size: 16px;
   font-weight: 200;
-
+}
+.tile .warning {
+  color: red;
 }
 
 .tile .chart {
   width: 100px;
   height: 50px;
   background-color: @chart-background-color;
+  padding: 10px;
+  pointer-events: none;
 }
 
 .tile.list {
@@ -105,6 +109,8 @@
 }
 
 .navigate-back {
+  margin-bottom: 20px;
+
   a {
     color: inherit !important;
     text-decoration: none !important;
@@ -114,4 +120,11 @@
 .chart {
   background-color: @chart-background-color;
   height: 200px;
+}
+
+.details {
+  .value {
+    font-size: 26px;
+    display: block;
+  }
 }

@@ -73,14 +73,11 @@ module.exports = {
         'vendor/angular-sanitize/angular-sanitize.min.js',
         'vendor/highcharts-ng/dist/highcharts-ng.min.js',
         'vendor/sprintf/dist/sprintf.min.js',
-        'vendor/sprintf/dist/angular-sprintf.min.js'
+        'vendor/sprintf/dist/angular-sprintf.min.js',
+        'vendor/angular-resource/angular-resource.min.js',
+        'vendor/angular-loading-bar/build/loading-bar.min.js'
     ],
-    css: [
-        //'vendor/fontawesome/css/font-awesome.min.css',
-        //'vendor/fontface-source-sans-pro/css/source-sans-pro.css',
-        //'vendor/fontawesome/fonts/*',
-        //'vendor/fontface-source-sans-pro/fonts/WOFF/OTF/*'
-    ],
+    css: [],
     assets: [
         'vendor/bootstrap/fonts/glyphicons-halflings-regular.woff',
         'vendor/bootstrap/fonts/glyphicons-halflings-regular.ttf'

@@ -24,7 +24,7 @@ angular.module( 'telecareDashboard.dashboard', [
  */
 .config(function config( $stateProvider ) {
   $stateProvider.state( 'dashboard', {
-    url: '/dashboard',
+    url: '/',
     views: {
       "main": {
         controller: 'DashboardCtrl',
@@ -38,32 +38,58 @@ angular.module( 'telecareDashboard.dashboard', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'DashboardCtrl', function DashboardController( $scope, $filter, participantsData,
-                                                                focus, aggregateThings, thingsData) {
+.controller( 'DashboardCtrl', function DashboardController( $scope, $filter, focus, aggregateThings,
+                                                            participantResource, thingResource) {
+
+        var retrieveParticipants = function() {
+            participantResource.query().$promise.then(
+                function(participants) {
+                    $scope.allParticipants = participants;
+                    afterDataResolved();
+                },
+                function() {
+                    alert('Failed to retrieve Participants data');
+                }
+            );
+        };
+
+        var afterDataResolved = function() {
+            $scope.$watch('search.query', function() {
+                $scope.updateParticipants();
+                $scope.updatePagination();
+            }, true);
+        };
 
         $scope.participant = null;
 
-        $scope.things = aggregateThings(thingsData($scope.participant));
+        retrieveParticipants();
 
-        console.log($scope.things);
+        //$scope.things = aggregateThings(thingsData($scope.participant));
+        //
+        ////console.log(data.getParticipants());
+        //
+        //$scope.allParticipants = participantsData;
+        //$scope.filteredParticipants = $scope.allParticipants;
 
-        $scope.allParticipants = participantsData;
-        $scope.filteredParticipants = $scope.allParticipants;
-
-        $scope.search = {
-            query: '',
-            active: true
+        var resetSearch = function() {
+            $scope.search = {
+                query: '',
+                active: true
+            };
         };
 
-        $scope.$watch('search.query', function() {
-            $scope.updateParticipants();
-            $scope.updatePagination();
-        }, true);
+        resetSearch();
 
+        $scope.focusSearch = function() {
+            resetSearch();
+            $scope.things = null;
+            $scope.thing = null;
+            $scope.participant = null;
+        };
 
         $scope.updateParticipants = function() {
             $scope.filteredParticipants = $filter('filter')($scope.allParticipants, {
-                name: $scope.search.query
+                fullName: $scope.search.query
             });
         };
 
@@ -73,7 +99,7 @@ angular.module( 'telecareDashboard.dashboard', [
         $scope.paginatedParticipants = {};
 
         $scope.currentPage = 1;
-        $scope.itemsPerPage = 2;
+        $scope.itemsPerPage = 10;
 
         $scope.setPage = function(page) {
             $scope.currentPage = page;
@@ -95,8 +121,17 @@ angular.module( 'telecareDashboard.dashboard', [
 
         $scope.selectParticipant = function(participant) {
             $scope.participant = participant;
-            $scope.search.query  = participant.name;
+            $scope.search.query  = participant.fullName;
             $scope.search.active = false;
+
+            thingResource.get({participantId: participant.participantId}).$promise.then(
+                function(things) {
+                    $scope.things = aggregateThings(things);
+                },
+                function(reason) {
+                    alert('Failed to retrieve data');
+                }
+            );
         };
 
         $scope.init = function() {
@@ -112,13 +147,8 @@ angular.module( 'telecareDashboard.dashboard', [
 
 
 
-
-        //This is not a highcharts object. It just looks a little like one!
         $scope.chartConfig = {
-
             options: {
-                //This is the Main Highcharts chart config. Any Highchart options are valid here.
-                //will be overriden by values specified below.
                 chart: {
                     type: 'line',
                     backgroundColor: 'transparent'
@@ -130,36 +160,17 @@ angular.module( 'telecareDashboard.dashboard', [
                     }
                 }
             },
-            //The below properties are watched separately for changes.
-
-            //Series object (optional) - a list of series using normal highcharts series options.
-            series: [{
-                data: [10, 15]
-            }],
-            //Title configuration (optional)
             title: {
                 text: null
             },
-            //Boolean to control showng loading status on chart (optional)
-            //Could be a string if you want to show specific loading text.
             loading: false,
-            //Configuration for the xAxis (optional). Currently only one x axis can be dynamically controlled.
-            //properties currentMin and currentMax provied 2-way binding to the chart's maximimum and minimum
             xAxis: {
                 currentMin: 0,
                 currentMax: 20,
                 title: {text: null}
             },
-            //Whether to use HighStocks instead of HighCharts (optional). Defaults to false.
-            useHighStocks: false,
-            //size (optional) if left out the chart will default to size of the div or something sensible.
             size: {
-            //    width: 400,
                 height: 200
-            },
-            //function (optional)
-            func: function (chart) {
-                //setup some logic for the chart
             }
         };
 })
