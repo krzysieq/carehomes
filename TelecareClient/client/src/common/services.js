@@ -86,7 +86,7 @@ angular.module('telecareDashboardServices', [])
                     return false;
                 },
                 time: function(duration) {
-                    return duration.asMonths() > 0;
+                    return duration.asDays() > 20;
                 }
             }
         }, {
@@ -135,8 +135,10 @@ angular.module('telecareDashboardServices', [])
             },
             warnings: {
                 value: function(record) {
-                    return record.systolic > 130 ||
-                            record.diastolic < 70;
+                    return record.systolic > 140 ||
+                        record.diastolic > 90 ||
+                        record.systolic < 90 ||
+                        record.diastolic < 60;
                 },
                 time: function(duration) {
                     return duration.asHours() > 24;
@@ -197,11 +199,12 @@ angular.module('telecareDashboardServices', [])
             },
             warnings: {
                 value: function (record) {
-                    return record.systolic > 130 ||
-                        record.diastolic < 70;
+                    return record.ldl > 100 ||
+                        record.hdl > 50 ||
+                        record.total > 200;
                 },
                 time: function (duration) {
-                    return duration.asHours() > 24;
+                    return duration.asDays() > 7;
                 }
             }
         }, {
@@ -241,392 +244,396 @@ angular.module('telecareDashboardServices', [])
             },
             warnings: {
                 value: function (record) {
-                    return record.value > 130 ||
-                        record.value < 70;
+                    return false;
                 },
                 time: function (duration) {
                     return duration.asHours() > 24;
                 }
             }
         },
-        // Not supported by HealthVault platform at the moment
-        //}, {
-        //    category: 'health',
-        //    title: 'SpO<sub>2</sub>',
-        //    property: 'bodyOxygen',
-        //    value: {
-        //        number: function() {
-        //            return this.value * 100;
-        //        },
-        //        units: '%'
-        //    },
-        //    chart: function(records) {
-        //        return {
-        //            series: [{
-        //                data: records.map(function (record) {
-        //                    return [new Date(record.time).getTime(), record.value];
-        //                }),
-        //                name: 'SpO2'
-        //            }],
-        //            options: {
-        //                chart: {
-        //                    type: 'line'
-        //                }
-        //            }
-        //        };
-        //    },
-        //    details: function(records) {
-        //        if (records.length === 0) {
-        //            return '';
-        //        }
-        //        var values = records.map(function(record) {
-        //            return record.value;
-        //        });
-        //        var average = values.average() * 100,
-        //            min = values.min() * 100,
-        //            max = values.max() * 100;
-        //        return sprintf('<p>Average last week: <span class="value">%.1f%%</span></p>' +
-        //            '<p>Lowest last week: <span class="value">%.1f%%</span></p>' +
-        //            '<p>Highest last week: <span class="value">%.1f%%</span></p>',
-        //            average, min, max);
-        //    },
-        //    warnings: {
-        //        value: function(record) {
-        //            return record.value < 0.9;
-        //        },
-        //        time: function(duration) {
-        //            return duration.asDays() > 7;
-        //        }
-        //    }
-        //}, {
-        //    category: 'environment',
-        //    title: 'Smoke',
-        //    property: 'smoke',
-        //    value: {
-        //        number: function() {
-        //            return this.status;
-        //        },
-        //        units: ''
-        //    }
-        //}, {
-           {
-            category: 'environment',
-            title: 'Temperature',
-            property: 'ambientTemperature',
-            value: {
-                number: function() {
-                    return this.value;
-                },
-                units: '℃'
-            },
-            chart: function(records) {
-                return {
-                    series: [{
-                        data: records.map(function (record) {
-                            return [new Date(record.time).getTime(), record.value];
-                        }),
-                        name: 'Temperature'
-                    }],
-                    options: {
-                        chart: {
-                            type: 'line'
-                        }
-                    }
-                };
-            },
-            details: function(records) {
-                if (records.length === 0) {
-                    return '';
-                }
-                var values = records.map(function(record) {
-                    return record.value;
-                });
-                var average = values.average(),
-                    max = values.max(),
-                    min = values.min();
-                return sprintf('<p>Average temperature last week: <span class="value">%.1f℃</span></p>' +
-                '<p>Lowest temperature last week: <span class="value">%.1f℃</span></p>' +
-                '<p>Highest temperature last week: <span class="value">%.1f℃</span></p>',
-                average, min, max);
-            },
-            warnings: {
-                value: function(record) {
-                    return record.value > 24 ||
-                            record.value < 19;
-                },
-                time: function(duration) {
-                    return duration.asHours() > 24;
-                }
-            }
-        }, {
-            category: 'environment',
-            title: 'Humidity',
-            property: 'humidity',
-            value: {
-                number: function() {
-                    return this.value;
-                },
-                units: '%'
-            },
-            chart: function(records) {
-                return {
-                    series: [{
-                        data: records.map(function (record) {
-                            return [new Date(record.time).getTime(), record.value];
-                        }),
-                        name: 'Humidity'
-                    }],
-                    options: {
-                        chart: {
-                            type: 'line'
-                        }
-                    }
-                };
-            },
-            details: function(records) {
-                if (records.length === 0) {
-                    return '';
-                }
-                var values = records.map(function(record) {
-                    return record.value;
-                });
-                var average = values.average(),
-                    max = values.max(),
-                    min = values.min();
-                return sprintf('<p>Average humidity last week: <span class="value">%.0f%%</span></p>' +
-                    '<p>Lowest humidity last week: <span class="value">%.0f%%</span></p>' +
-                    '<p>Highest humidity last week: <span class="value">%.0f%%</span></p>',
-                    average, min, max);
-            },
-            warnings: {
-                value: function(record) {
-                    return false;
-                },
-                time: function(duration) {
-                    return false;
-                }
-            }
-        }, {
-            category: 'environment',
-            title: 'CO',
-            property: 'carbonMonoxide',
-            value: {
-                number: function() {
-                    if (this.value === 'ok') {
-                        return 'OK';
-                    } else if (this.value === 'warning') {
-                        return 'WARN';
-                    } else if (this.value === 'emergency') {
-                        return 'DANGER';
-                    }
-                    return '--';
-                },
-                units: ''
-            },
-            chart: function(records) {
-                var recordsForChart = records.map(function(record) {
-                    return [
-                        new Date(record.time).getTime(),
-                        (function() {
-                            if (record.value === 'ok') {
-                                return  0;
-                            } else if (record.value === 'warning') {
-                                return 1;
-                            } else if (record.value === 'emergency') {
-                                return 2;
-                            } else {
-                                return 0;
-                            }
-                        })()
-                    ];
-                });
-                return {
-                    series: [{
-                        data: recordsForChart,
-                        name: 'Carbon monoxide status'
-                    }],
-                    yAxis: {
-                        max: 2
+            // Not supported by HealthVault platform at the moment
+            //}, {
+            //    category: 'health',
+            //    title: 'SpO<sub>2</sub>',
+            //    property: 'bodyOxygen',
+            //    value: {
+            //        number: function() {
+            //            return this.value * 100;
+            //        },
+            //        units: '%'
+            //    },
+            //    chart: function(records) {
+            //        return {
+            //            series: [{
+            //                data: records.map(function (record) {
+            //                    return [new Date(record.time).getTime(), record.value];
+            //                }),
+            //                name: 'SpO2'
+            //            }],
+            //            options: {
+            //                chart: {
+            //                    type: 'line'
+            //                }
+            //            }
+            //        };
+            //    },
+            //    details: function(records) {
+            //        if (records.length === 0) {
+            //            return '';
+            //        }
+            //        var values = records.map(function(record) {
+            //            return record.value;
+            //        });
+            //        var average = values.average() * 100,
+            //            min = values.min() * 100,
+            //            max = values.max() * 100;
+            //        return sprintf('<p>Average last week: <span class="value">%.1f%%</span></p>' +
+            //            '<p>Lowest last week: <span class="value">%.1f%%</span></p>' +
+            //            '<p>Highest last week: <span class="value">%.1f%%</span></p>',
+            //            average, min, max);
+            //    },
+            //    warnings: {
+            //        value: function(record) {
+            //            return record.value < 0.9;
+            //        },
+            //        time: function(duration) {
+            //            return duration.asDays() > 7;
+            //        }
+            //    }
+            //}, {
+            //    category: 'environment',
+            //    title: 'Smoke',
+            //    property: 'smoke',
+            //    value: {
+            //        number: function() {
+            //            return this.status;
+            //        },
+            //        units: ''
+            //    }
+            //}, {
+            {
+                category: 'environment',
+                title: 'Temperature',
+                property: 'ambientTemperature',
+                value: {
+                    number: function() {
+                        return this.value;
                     },
-                    options: {
-                        chart: {
-                            type: 'column'
-                        }
-                    }
-                };
-            },
-            details: function(records) {
-                var status = (function() {
-                    var current = records.last();
-                    console.log(current);
-                    if (current.value === 'ok') {
-                        return {
-                            status: 'OK',
-                            description: 'No CO detected'
-                        };
-                    } else if (current.value === 'warning') {
-                        return {
-                            status: 'WARNING',
-                            description: 'CO detected'
-                        };
-                    } else if (current.value === 'emergency') {
-                        return {
-                            status: 'EMERGENCY',
-                            description: 'CO detected! Move to fresh air!'
-                        };
-                    }
-                })();
-                return sprintf('<p>The current status is <span class="value">%s</span>%s</p>',
-                    status.status, status.description);
-            },
-            warnings: {
-                value: function(record) {
-                    return record.value !== 'ok';
+                    units: '℃'
                 },
-                time: function(duration) {
-                    return false;
-                }
-            }
-        }, {
-            category: 'environment',
-            title: 'Smoke',
-            property: 'smoke',
-            value: {
-                number: function() {
-                    if (this.value === 'ok') {
-                        return 'OK';
-                    } else if (this.value === 'warning') {
-                        return 'WARN';
-                    } else if (this.value === 'emergency') {
-                        return 'DANGER';
-                    }
-                    return '--';
-                },
-                units: ''
-            },
-            chart: function(records) {
-                var recordsForChart = records.map(function(record) {
-                    return [
-                        new Date(record.time).getTime(),
-                        (function() {
-                            if (record.value === 'ok') {
-                                return 0.1;
-                            } else if (record.value === 'warning') {
-                                return 1;
-                            } else if (record.value === 'emergency') {
-                                return 2;
-                            } else {
-                                return 0;
+                chart: function(records) {
+                    return {
+                        series: [{
+                            data: records.map(function (record) {
+                                return [new Date(record.time).getTime(), record.value];
+                            }),
+                            name: 'Temperature'
+                        }],
+                        options: {
+                            chart: {
+                                type: 'line'
                             }
-                        })()
-                    ];
-                });
-                return {
-                    series: [{
-                        data: recordsForChart,
-                        name: 'Smoke status'
-                    }],
-                    yAxis: {
-                        max: 2
-                    },
-                    options: {
-                        chart: {
-                            type: 'column'
                         }
-                    }
-                };
-            },
-            details: function(records) {
-                var status = (function() {
-                    var current = records.last();
-                    console.log(current);
-                    if (current.value === 'ok') {
-                        return {
-                            status: 'OK',
-                            description: 'No smoke detected'
-                        };
-                    } else if (current.value === 'warning') {
-                        return {
-                            status: 'WARNING',
-                            description: 'Smoke detected'
-                        };
-                    } else if (current.value === 'emergency') {
-                        return {
-                            status: 'EMERGENCY',
-                            description: 'Smoke detected! Move to fresh air!'
-                        };
-                    }
-                })();
-                return sprintf('<p>The current status is <span class="value">%s</span>%s</p>',
-                    status.status, status.description);
-            },
-            warnings: {
-                value: function(record) {
-                    return record.value !== 'ok';
+                    };
                 },
-                time: function(duration) {
-                    return false;
+                details: function(records) {
+                    if (records.length === 0) {
+                        return '';
+                    }
+                    var values = records.map(function(record) {
+                        return record.value;
+                    });
+                    var average = values.average(),
+                        max = values.max(),
+                        min = values.min();
+                    return sprintf('<p>Average temperature last week: <span class="value">%.1f℃</span></p>' +
+                        '<p>Lowest temperature last week: <span class="value">%.1f℃</span></p>' +
+                        '<p>Highest temperature last week: <span class="value">%.1f℃</span></p>',
+                        average, min, max);
+                },
+                warnings: {
+                    value: function(record) {
+                        return false;
+                    },
+                    time: function(duration) {
+                        return duration.asHours() > 24;
+                    }
                 }
-            }
-        }, {
-            category: 'background',
-            title: 'Conditions',
-            property: 'conditions',
-            value: {
-                list: function(item) {
-                    return item.text;
+            }, {
+                category: 'environment',
+                title: 'Humidity',
+                property: 'humidity',
+                value: {
+                    number: function() {
+                        return this.value;
+                    },
+                    units: '%'
+                },
+                chart: function(records) {
+                    return {
+                        series: [{
+                            data: records.map(function (record) {
+                                return [new Date(record.time).getTime(), record.value];
+                            }),
+                            name: 'Humidity'
+                        }],
+                        options: {
+                            chart: {
+                                type: 'line'
+                            }
+                        }
+                    };
+                },
+                details: function(records) {
+                    if (records.length === 0) {
+                        return '';
+                    }
+                    var values = records.map(function(record) {
+                        return record.value;
+                    });
+                    var average = values.average(),
+                        max = values.max(),
+                        min = values.min();
+                    return sprintf('<p>Average humidity last week: <span class="value">%.0f%%</span></p>' +
+                        '<p>Lowest humidity last week: <span class="value">%.0f%%</span></p>' +
+                        '<p>Highest humidity last week: <span class="value">%.0f%%</span></p>',
+                        average, min, max);
+                },
+                warnings: {
+                    value: function(record) {
+                        return false;
+                    },
+                    time: function(duration) {
+                        return duration.asHours() > 24;
+                    }
                 }
-            },
-            details: function(records) {
-                if (records.length === 0) {
-                    return '<p>None reported</p>';
+            }, {
+                category: 'environment',
+                title: 'CO',
+                property: 'carbonMonoxide',
+                value: {
+                    number: function() {
+                        if (this.value === 'ok') {
+                            return 'OK';
+                        } else if (this.value === 'warning') {
+                            return 'WARN';
+                        } else if (this.value === 'emergency') {
+                            return 'DANGER';
+                        }
+                        return '--';
+                    },
+                    units: ''
+                },
+                chart: function(records) {
+                    var recordsForChart = records.map(function(record) {
+                        return [
+                            new Date(record.time).getTime(),
+                            (function() {
+                                if (record.value === 'ok') {
+                                    return  0;
+                                } else if (record.value === 'warning') {
+                                    return 1;
+                                } else if (record.value === 'emergency') {
+                                    return 2;
+                                } else {
+                                    return 0;
+                                }
+                            })()
+                        ];
+                    });
+                    return {
+                        series: [{
+                            data: recordsForChart,
+                            name: 'Carbon monoxide status'
+                        }],
+                        yAxis: {
+                            max: 2,
+                            labels: {
+                                enabled: false
+                            }
+                        },
+                        options: {
+                            chart: {
+                                type: 'column'
+                            }
+                        }
+                    };
+                },
+                details: function(records) {
+                    var status = (function() {
+                        var current = records.last();
+                        console.log(current);
+                        if (current.value === 'ok') {
+                            return {
+                                status: 'OK',
+                                description: 'No CO detected'
+                            };
+                        } else if (current.value === 'warning') {
+                            return {
+                                status: 'WARNING',
+                                description: 'CO detected'
+                            };
+                        } else if (current.value === 'emergency') {
+                            return {
+                                status: 'EMERGENCY',
+                                description: 'CO detected! Move to fresh air!'
+                            };
+                        }
+                    })();
+                    return sprintf('<p>The current status is <span class="value">%s</span>%s</p>',
+                        status.status, status.description);
+                },
+                warnings: {
+                    value: function(record) {
+                        return record.value !== 'ok';
+                    },
+                    time: function(duration) {
+                        return duration.asHours() > 24;
+                    }
                 }
-                return '<ul>' +
-                    records.map(function(record) {
-                        return sprintf('<li>%s</li>', record.text);
-                    }).join('') +
-                    '</ul>';
-            }
-        }, {
-            category: 'background',
-            title: 'Allergies',
-            property: 'allergies',
-            value: {
-                list: function(item) {
-                    return item.text;
+            }, {
+                category: 'environment',
+                title: 'Smoke',
+                property: 'smoke',
+                value: {
+                    number: function() {
+                        if (this.value === 'ok') {
+                            return 'OK';
+                        } else if (this.value === 'warning') {
+                            return 'WARN';
+                        } else if (this.value === 'emergency') {
+                            return 'DANGER';
+                        }
+                        return '--';
+                    },
+                    units: ''
+                },
+                chart: function(records) {
+                    var recordsForChart = records.map(function(record) {
+                        return [
+                            new Date(record.time).getTime(),
+                            (function() {
+                                if (record.value === 'ok') {
+                                    return 0.1;
+                                } else if (record.value === 'warning') {
+                                    return 1;
+                                } else if (record.value === 'emergency') {
+                                    return 2;
+                                } else {
+                                    return 0;
+                                }
+                            })()
+                        ];
+                    });
+                    return {
+                        series: [{
+                            data: recordsForChart,
+                            name: 'Smoke status'
+                        }],
+                        yAxis: {
+                            max: 2,
+                            labels: {
+                                enabled: false
+                            }
+                        },
+                        options: {
+                            chart: {
+                                type: 'column'
+                            }
+                        }
+                    };
+                },
+                details: function(records) {
+                    var status = (function() {
+                        var current = records.last();
+                        console.log(current);
+                        if (current.value === 'ok') {
+                            return {
+                                status: 'OK',
+                                description: 'No smoke detected'
+                            };
+                        } else if (current.value === 'warning') {
+                            return {
+                                status: 'WARNING',
+                                description: 'Smoke detected'
+                            };
+                        } else if (current.value === 'emergency') {
+                            return {
+                                status: 'EMERGENCY',
+                                description: 'Smoke detected! Move to fresh air!'
+                            };
+                        }
+                    })();
+                    return sprintf('<p>The current status is <span class="value">%s</span>%s</p>',
+                        status.status, status.description);
+                },
+                warnings: {
+                    value: function(record) {
+                        return record.value !== 'ok';
+                    },
+                    time: function(duration) {
+                        return duration.asHours() > 24;
+                    }
                 }
-            },
-            details: function(records) {
-                if (records.length === 0) {
-                    return '<p>None reported</p>';
-                }
-                return '<ul>' +
+            }, {
+                category: 'background',
+                title: 'Conditions',
+                property: 'conditions',
+                value: {
+                    list: function(item) {
+                        return item.text;
+                    }
+                },
+                details: function(records) {
+                    if (records.length === 0) {
+                        return '<p>None reported</p>';
+                    }
+                    return '<ul>' +
                         records.map(function(record) {
                             return sprintf('<li>%s</li>', record.text);
                         }).join('') +
                         '</ul>';
-            }
+                }
+            }, {
+                category: 'background',
+                title: 'Allergies',
+                property: 'allergies',
+                value: {
+                    list: function(item) {
+                        return item.text;
+                    }
+                },
+                details: function(records) {
+                    if (records.length === 0) {
+                        return '<p>None reported</p>';
+                    }
+                    return '<ul>' +
+                        records.map(function(record) {
+                            return sprintf('<li>%s</li>', record.text);
+                        }).join('') +
+                        '</ul>';
+                }
 
-        }, {
-            category: 'background',
-            title: 'Medications',
-            property: 'medications',
-            value: {
-                list: function(item) {
-                    return item.text;
+            }, {
+                category: 'background',
+                title: 'Medications',
+                property: 'medications',
+                value: {
+                    list: function(item) {
+                        return item.text;
+                    }
+                },
+                details: function(records) {
+                    if (records.length === 0) {
+                        return '<p>None reported</p>';
+                    }
+                    return '<ul>' +
+                        records.map(function(record) {
+                            return sprintf('<li>%s</li>', record.text);
+                        }).join('') +
+                        '</ul>';
                 }
-            },
-            details: function(records) {
-                if (records.length === 0) {
-                    return '<p>None reported</p>';
-                }
-                return '<ul>' +
-                    records.map(function(record) {
-                        return sprintf('<li>%s</li>', record.text);
-                    }).join('') +
-                    '</ul>';
-            }
-        }];
+            }];
     })
 
     .factory('aggregateThings', function(thingsConfig, chartConfig, chartConfigTiny) {
@@ -677,7 +684,6 @@ angular.module('telecareDashboardServices', [])
                 things[thing.category].push(newThing);
             });
 
-            console.log(things);
             return things;
         };
     })

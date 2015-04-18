@@ -31,7 +31,7 @@ angular.module( 'telecareDashboard.dashboard', [
         templateUrl: 'dashboard/dashboard.tpl.html'
       }
     },
-    data:{ pageTitle: 'Dashboard' }
+    data:{ pageTitle: 'Home Activity Monitoring System - Dashboard' }
   });
 })
 
