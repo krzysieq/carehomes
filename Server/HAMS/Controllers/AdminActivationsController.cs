@@ -12,6 +12,7 @@ namespace HAMS.Controllers
 {
     [RoutePrefix("admin/activations")]
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [AdminAuthentication]
     public class AdminActivationsController : ApiController
     {
         // POST: admin/activations

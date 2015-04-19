@@ -18,6 +18,7 @@ namespace HAMS.Controllers
 {
     [RoutePrefix("admin/participants")]
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [AdminAuthentication]
     public class AdminParticipantsController : ApiController
     {
         private HAMSContext db = new HAMSContext();

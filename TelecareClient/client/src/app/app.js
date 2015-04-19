@@ -20,7 +20,13 @@ angular.module( 'telecareDashboard', [
   $urlRouterProvider.otherwise( '/' );
 })
 
-.run( function run () {
+.run( function run ($http, Base64) {
+    /*
+     * WARNING: These credentials should be changed when deploying to production
+     */
+    var username = 'client',
+        password = '4pHkTiyv48xT';
+    $http.defaults.headers.common['Authorization'] = 'Basic ' + Base64.encode(username + ':' + password);
 })
 
 .controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {

@@ -16,8 +16,15 @@ angular.module( 'telecareAdmin', [
   $urlRouterProvider.otherwise( '/' );
 })
 
-.run( function run ($rootScope) {
+.run( function run ($rootScope, $http, Base64) {
       $rootScope.PATTERN_DATE = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/;
+
+      /*
+       * WARNING: These credentials should be changed when deploying to production
+       */
+      var username = 'admin',
+          password = 'hc3OpgYAHnJC';
+      $http.defaults.headers.common['Authorization'] = 'Basic ' + Base64.encode(username + ':' + password);
 })
 
 .controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {

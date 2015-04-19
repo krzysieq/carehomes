@@ -10,6 +10,7 @@ using System.Web.Http.Description;
 namespace HAMS.Controllers
 {
     [RoutePrefix("admin/jobs")]
+    [AdminAuthentication]
     public class AdminJobsController : ApiController
     {
         // POST: admin/jobs

@@ -19,6 +19,7 @@ namespace HAMS.Controllers
 {
     [RoutePrefix("client/participants")]
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [ClientAuthentication]
     public class ClientParticipantsController : ApiController
     {
         private HAMSContext db = new HAMSContext();
