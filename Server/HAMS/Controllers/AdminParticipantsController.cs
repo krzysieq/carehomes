@@ -106,25 +106,18 @@ namespace HAMS.Controllers
                 return BadRequest();
             }
 
-            Participant participant = ToParticipant(participantDto);
-
-            db.Entry(participant).State = EntityState.Modified;
-
-            try
+            Participant participant = await db.Participants.FindAsync(participantDto);
+            if (participant == null)
             {
-                await db.SaveChangesAsync();
+                return BadRequest();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ParticipantExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+
+            participant.FirstName = participantDto.firstName;
+            participant.LastName = participantDto.lastName;
+            participant.Dob = participantDto.dob;
+            participant.Gender = participantDto.gender;
+
+            db.SaveChanges();
 
             return StatusCode(HttpStatusCode.NoContent);
         }
