@@ -106,7 +106,7 @@ namespace HAMS.Controllers
                 return BadRequest();
             }
 
-            Participant participant = await db.Participants.FindAsync(participantDto);
+            Participant participant = await db.Participants.FindAsync(participantDto.participantId);
             if (participant == null)
             {
                 return BadRequest();
