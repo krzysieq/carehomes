@@ -11,7 +11,7 @@
         <div class="row second" ng-show="type == 'single'">
             <div class="col-md-6">
                 <div class="chart">
-                    <highchart config="thing.chartTiny"></highchart>
+                    <highchart config="thing.chartTiny" ng-show="thing.chartTiny"></highchart>
                 </div>
             </div>
             <div class="col-md-6 value bottom-right" ng-class="{warning: thing.warnings.value}">

@@ -127,6 +127,7 @@ angular.module( 'telecareDashboard.dashboard', [
             thingResource.get({participantId: participant.participantId}).$promise.then(
                 function(things) {
                     $scope.things = aggregateThings(things);
+                    console.log($scope.things);
                 },
                 function(reason) {
                     alert('Failed to retrieve data');

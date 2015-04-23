@@ -649,27 +649,32 @@ angular.module('telecareDashboardServices', [])
                 if (!concreteThing) {
                     return;
                 }
-                var lastRecord = concreteThing.last();
 
                 var newThing = {
                     title: thing.title
                 };
                 if (thing.value.number) {
-                    newThing.updated = new Date(lastRecord.time);
-                    newThing.value = {
-                        number: thing.value.number.call(lastRecord),
-                        units: thing.value.units
-                    };
-                    if (thing.chart) {
-                        newThing.chart = angular.merge({}, chartConfig, thing.chart(concreteThing));
-                        newThing.chartTiny = angular.merge({}, newThing.chart, chartConfigTiny);
-                        console.log(newThing.chartTiny);
-                    }
-                    if (thing.warnings) {
-                        var timeDiff = moment().diff(moment(lastRecord.time));
-                        newThing.warnings = {
-                            value: thing.warnings.value(lastRecord),
-                            time: thing.warnings.time(moment.duration(timeDiff))
+                    if (concreteThing.length > 0) {
+                        var lastRecord = concreteThing.last();
+                        newThing.updated = new Date(lastRecord.time);
+                        newThing.value = {
+                            number: thing.value.number.call(lastRecord),
+                            units: thing.value.units
+                        };
+                        if (thing.chart) {
+                            newThing.chart = angular.merge({}, chartConfig, thing.chart(concreteThing));
+                            newThing.chartTiny = angular.merge({}, newThing.chart, chartConfigTiny);
+                        }
+                        if (thing.warnings) {
+                            var timeDiff = moment().diff(moment(lastRecord.time));
+                            newThing.warnings = {
+                                value: thing.warnings.value(lastRecord),
+                                time: thing.warnings.time(moment.duration(timeDiff))
+                            };
+                        }
+                    } else {
+                        newThing.value = {
+                            units: 'No data'
                         };
                     }
                 } else if (thing.value.list) {
@@ -679,7 +684,6 @@ angular.module('telecareDashboardServices', [])
                 }
                 if (thing.details) {
                     newThing.details = thing.details(concreteThing);
-                    console.warn(newThing.details);
                 }
                 things[thing.category].push(newThing);
             });
