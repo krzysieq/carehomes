@@ -1,6 +1,6 @@
 angular.module('telecareDashboardServices', [])
 
-    .constant('API_BASE', 'https://hams.azurewebsites.net/client/')
+    .constant('API_BASE', 'https://hams-api.azurewebsites.net/client/')
 
     .factory('participantResource', function($resource, API_BASE, $http, $filter) {
         return $resource(API_BASE + 'participants/:participantId', null, {
