@@ -13,6 +13,6 @@ namespace HAMS.HV
 
         public const string DeploymentUrl = "https://hams-api.azurewebsites.net";
 
-        public const int timeInterval = 210;
+        public const int timeInterval = 7;
     }
 }
