@@ -338,7 +338,7 @@ angular.module('telecareDashboardServices', [])
                 },
                 details: function(records) {
                     if (records.length === 0) {
-                        return '';
+                        return 'No data available.';
                     }
                     var values = records.map(function(record) {
                         return record.value;
@@ -386,7 +386,7 @@ angular.module('telecareDashboardServices', [])
                 },
                 details: function(records) {
                     if (records.length === 0) {
-                        return '';
+                        return 'No data available.';
                     }
                     var values = records.map(function(record) {
                         return record.value;
@@ -460,6 +460,9 @@ angular.module('telecareDashboardServices', [])
                     };
                 },
                 details: function(records) {
+                    if (records.length === 0) {
+                        return 'No data available.';
+                    }
                     var status = (function() {
                         var current = records.last();
                         console.log(current);
@@ -544,6 +547,9 @@ angular.module('telecareDashboardServices', [])
                     };
                 },
                 details: function(records) {
+                    if (records.length === 0) {
+                        return 'No data available.';
+                    }
                     var status = (function() {
                         var current = records.last();
                         console.log(current);

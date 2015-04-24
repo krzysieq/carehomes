@@ -60,6 +60,11 @@ namespace HAMS.HV
 
                 if (typeId == CustomType.Id) // custom type
                 {
+                    foreach (EnvTypes.ThingTypeDefinition typeDefinition in EnvTypes.TypeDefinitions.Values)
+                    {
+                        output[typeDefinition.Label] = new JArray();
+                    }
+
                     foreach (CustomHealthTypeWrapper wrapper in thingCollection)
                     {
                         HealthRecordItemCustomBase item = wrapper.WrappedObject;
@@ -70,11 +75,6 @@ namespace HAMS.HV
                         }
 
                         envTypeDefinition = EnvTypes.TypeDefinitions[item.GetType().GUID];
-
-                        if (output[envTypeDefinition.Label] == null)
-                        {
-                            output[envTypeDefinition.Label] = new JArray();
-                        }
 
                         ((JArray)output[envTypeDefinition.Label]).Add(envTypeDefinition.Transformation(item));
                     }
@@ -102,6 +102,7 @@ namespace HAMS.HV
         {
             CustomHealthTypeWrapper wrapper = new CustomHealthTypeWrapper(thing, when);
             wrapper.When = when;
+            wrapper.EffectiveDate = when.ToDateTime();
 
             PostThing(wrapper, personId, recordId);
         }
@@ -131,7 +132,7 @@ namespace HAMS.HV
 
         public static DateTime GetMinTime()
         {
-            return DateTime.Now.AddDays(-210);
+            return DateTime.Now.AddDays(-AppSettings.timeInterval);
         }
 
         public static int CompareByTimeAscending(HealthRecordItem a, HealthRecordItem b)

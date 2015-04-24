@@ -12,5 +12,7 @@ namespace HAMS.HV
         public static string PlatformUrl() { return ("https://platform.healthvault-ppe.com/platform/"); }
 
         public const string DeploymentUrl = "https://hams-api.azurewebsites.net";
+
+        public const int timeInterval = 210;
     }
 }
