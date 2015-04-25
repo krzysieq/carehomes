@@ -377,9 +377,16 @@ angular.module('telecareDashboardServices', [])
                             }),
                             name: 'Humidity'
                         }],
+                        yAxis: {
+                            min: 0,
+                            max: 100
+                        },
                         options: {
                             chart: {
                                 type: 'line'
+                            },
+                            tooltip: {
+                                valueSuffix: '%'
                             }
                         }
                     };
@@ -430,7 +437,7 @@ angular.module('telecareDashboardServices', [])
                             new Date(record.time).getTime(),
                             (function() {
                                 if (record.value === 'ok') {
-                                    return  0;
+                                    return 0.1;
                                 } else if (record.value === 'warning') {
                                     return 1;
                                 } else if (record.value === 'emergency') {
@@ -455,6 +462,21 @@ angular.module('telecareDashboardServices', [])
                         options: {
                             chart: {
                                 type: 'column'
+                            },
+                            tooltip: {
+                                pointFormatter: function() {
+                                    var status = (function(point) {
+                                        if (point.y === 0.1) {
+                                            return 'OK';
+                                        } else if (point.y === 1) {
+                                            return 'WARNING';
+                                        } else {
+                                            return 'EMERGENCY';
+                                        }
+                                    })(this);
+                                    return sprintf('<span style="color:%s">\u25CF</span> %s: <b>%s</b><br/>',
+                                        this.series.color, this.series.name, status);
+                                }
                             }
                         }
                     };
@@ -483,7 +505,7 @@ angular.module('telecareDashboardServices', [])
                             };
                         }
                     })();
-                    return sprintf('<p>The current status is <span class="value">%s</span>%s</p>',
+                    return sprintf('<p>The most recent status is <span class="value">%s</span>%s</p>',
                         status.status, status.description);
                 },
                 warnings: {
@@ -542,6 +564,21 @@ angular.module('telecareDashboardServices', [])
                         options: {
                             chart: {
                                 type: 'column'
+                            },
+                            tooltip: {
+                                pointFormatter: function() {
+                                    var status = (function(point) {
+                                        if (point.y === 0.1) {
+                                            return 'OK';
+                                        } else if (point.y === 1) {
+                                            return 'WARNING';
+                                        } else {
+                                            return 'EMERGENCY';
+                                        }
+                                    })(this);
+                                    return sprintf('<span style="color:%s">\u25CF</span> %s: <b>%s</b><br/>',
+                                        this.series.color, this.series.name, status);
+                                }
                             }
                         }
                     };
@@ -570,7 +607,7 @@ angular.module('telecareDashboardServices', [])
                             };
                         }
                     })();
-                    return sprintf('<p>The current status is <span class="value">%s</span>%s</p>',
+                    return sprintf('<p>The most recent status is <span class="value">%s</span>%s</p>',
                         status.status, status.description);
                 },
                 warnings: {
@@ -709,6 +746,16 @@ angular.module('telecareDashboardServices', [])
                     style: {
                         padding: 10,
                         fontWeight: 'bold'
+                    },
+                    dateTimeLabelFormats: {
+                        millisecond:"%A, %b %e, %H:%M:%S",
+                        second:"%A, %b %e, %H:%M:%S",
+                        minute:"%A, %b %e, %H:%M",
+                        hour:"%A, %b %e, %H:%M",
+                        day:"%A, %b %e, %Y",
+                        week:"Week from %A, %b %e, %Y",
+                        month:"%B %Y",
+                        year:"%Y"
                     }
                 },
                 plotOptions: {
