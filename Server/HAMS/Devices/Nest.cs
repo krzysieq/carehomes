@@ -93,7 +93,7 @@ namespace HAMS.Devices
             return data;
         }
 
-        public static void PushThings()
+        public static void CollectAndPushThings()
         {
             using (var db = new HAMSContext())
             {
@@ -106,68 +106,77 @@ namespace HAMS.Devices
 
                     NestData data = GetData(participant.NestAuthCode);
 
-                    if (data.Temperature.HasValue)
-                    {
-                        HV.AmbientTemperature temperatureObject = new HV.AmbientTemperature
-                        {
-                            Value = data.Temperature.Value,
-                            Time = DateTime.Now
-                        };
-                        HV.Methods.PostCustomThing(
-                            temperatureObject,
-                            new Microsoft.Health.ItemTypes.HealthServiceDateTime(DateTime.Now),
-                            participant.HVPersonId.Value,
-                            participant.HVRecordId.Value
-                        );
-                    }
-
-                    if (data.Humidity.HasValue)
-                    {
-                        HV.Humidity humidityObject = new HV.Humidity
-                        {
-                            Value = data.Humidity.Value,
-                            Time = DateTime.Now
-                        };
-                        HV.Methods.PostCustomThing(
-                            humidityObject,
-                            new Microsoft.Health.ItemTypes.HealthServiceDateTime(DateTime.Now),
-                            participant.HVPersonId.Value,
-                            participant.HVRecordId.Value
-                        );
-                    }
-
-                    if (data.CoState != null)
-                    {
-                        HV.CoState coStateObject = new HV.CoState
-                        {
-                            Value = data.CoState,
-                            Time = DateTime.Now
-                        };
-                        HV.Methods.PostCustomThing(
-                            coStateObject,
-                            new Microsoft.Health.ItemTypes.HealthServiceDateTime(DateTime.Now),
-                            participant.HVPersonId.Value,
-                            participant.HVRecordId.Value
-                        );
-                    }
-
-                    if (data.SmokeState != null)
-                    {
-                        HV.SmokeState smokeStateObject = new HV.SmokeState
-                        {
-                            Value = data.SmokeState,
-                            Time = DateTime.Now
-                        };
-                        HV.Methods.PostCustomThing(
-                            smokeStateObject,
-                            new Microsoft.Health.ItemTypes.HealthServiceDateTime(DateTime.Now),
-                            participant.HVPersonId.Value,
-                            participant.HVRecordId.Value
-                        );
-                    }
-                    
+                    PushDataToHV(data, participant.HVPersonId.Value, participant.HVRecordId.Value);
                 }
             }
+        }
+
+        public static void PushDataToHV(NestData data, Guid personId, Guid recordId, DateTime time)
+        {
+            if (data.Temperature.HasValue)
+            {
+                HV.AmbientTemperature temperatureObject = new HV.AmbientTemperature
+                {
+                    Value = data.Temperature.Value,
+                    Time = time
+                };
+                HV.Methods.PostCustomThing(
+                    temperatureObject,
+                    new Microsoft.Health.ItemTypes.HealthServiceDateTime(time),
+                    personId,
+                    recordId
+                );
+            }
+
+            if (data.Humidity.HasValue)
+            {
+                HV.Humidity humidityObject = new HV.Humidity
+                {
+                    Value = data.Humidity.Value,
+                    Time = time
+                };
+                HV.Methods.PostCustomThing(
+                    humidityObject,
+                    new Microsoft.Health.ItemTypes.HealthServiceDateTime(time),
+                    personId,
+                    recordId
+                );
+            }
+
+            if (data.CoState != null)
+            {
+                HV.CoState coStateObject = new HV.CoState
+                {
+                    Value = data.CoState,
+                    Time = time
+                };
+                HV.Methods.PostCustomThing(
+                    coStateObject,
+                    new Microsoft.Health.ItemTypes.HealthServiceDateTime(time),
+                    personId,
+                    recordId
+                );
+            }
+
+            if (data.SmokeState != null)
+            {
+                HV.SmokeState smokeStateObject = new HV.SmokeState
+                {
+                    Value = data.SmokeState,
+                    Time = time
+                };
+                HV.Methods.PostCustomThing(
+                    smokeStateObject,
+                    new Microsoft.Health.ItemTypes.HealthServiceDateTime(time),
+                    personId,
+                    recordId
+                );
+            }
+        }
+
+        public static void PushDataToHV(NestData data, Guid personId, Guid recordId)
+        {
+            PushDataToHV(data, personId, recordId, DateTime.Now);
         }
     }
 }

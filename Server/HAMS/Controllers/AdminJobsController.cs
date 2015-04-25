@@ -19,7 +19,7 @@ namespace HAMS.Controllers
         public async Task<IHttpActionResult> PostJobs()
         {
             // Retrieve data from NEST API
-            HAMS.Devices.Nest.PushThings();
+            HAMS.Devices.Nest.CollectAndPushThings();
 
             return StatusCode(HttpStatusCode.NoContent);
         }
