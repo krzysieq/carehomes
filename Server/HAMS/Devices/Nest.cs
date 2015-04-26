@@ -62,7 +62,7 @@ namespace HAMS.Devices
             
             if (response["devices"] == null)
             {
-                return null;
+                return data;
             }
             JObject devices = (JObject) response["devices"];
 

@@ -18,6 +18,9 @@ namespace HAMS.Controllers
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PostJobs()
         {
+            // Update activations
+            HAMS.HV.Methods.CheckForValidatedConnections();
+
             // Retrieve data from NEST API
             HAMS.Devices.Nest.CollectAndPushThings();
 
